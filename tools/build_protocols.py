@@ -98,19 +98,25 @@ p176_allergy_nonmr = regimen(
     "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg /8h + metronidazol 500 mg /8h",
     [drug("Ciprofloxacina", "400 mg", None, "8/8h"), drug("Metronidazol", "500 mg", None, "8/8h")],
     src("Figura 1 — Fluxograma de antibioterapia recomendado na AA", 8, "Caixa 'Fatores de risco para MR? — Não'"),
-    issues=["B3"],
+    issues=["B3b"],
 )
-p176_allergy_mr = regimen(
-    "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg/8h + tigeciclina (100 mg e depois 50 mg /12h)",
-    [drug("Ciprofloxacina", "400 mg", None, "8/8h"),
-     drug("Tigeciclina", "100 mg (dose inicial) e depois 50 mg", None, "12/12h")],
-    src("Figura 1 — Fluxograma de antibioterapia recomendado na AA", 8, "Caixa 'Fatores de risco para MR? — Sim'"),
-    issues=["B3"],
+p176_allergy_mr_nosev = regimen(
+    "Se alergia: Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h",
+    [drug("Ciprofloxacina", "400 mg", "EV", "q8h"), drug("Metronidazol", "500 mg", "EV", "q8h")],
+    src("6.2.4 + Validação clínica B3 (CLINICAL_AUDIT.md §10)", 6),
+)
+p176_allergy_mr_sev = regimen(
+    "Se alergia: ciprofloxacina EV 400mg/8h + tigeciclina EV 100 mg e depois 50 mg /12h",
+    [drug("Ciprofloxacina", "400 mg", "EV", "8/8h"),
+     drug("Tigeciclina", "100 mg (dose inicial) e depois 50 mg", "EV", "12/12h")],
+    src("Figura 1 + Validação clínica B3 (CLINICAL_AUDIT.md §10)", 8),
 )
 p176_common = [
-    note("As doses de antibioterapia devem ser ajustadas à função renal.", src("6.2.4", 6), kind="renal"),
+    note("Antibioterapia exclusiva: a decisão deve ter em consideração a taxa aumentada de recorrência de doença, cerca de 23-27% em 1 ano, e internamentos potencialmente mais prolongados, pelo que deverá ser ponderada cuidadosamente. Apesar da idade avançada ser um fator de risco para doença complicada, a antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
+         src("6.1 Abordagem terapêutica", 4), when={"q_abordagem": "exclusiva"}, kind="warning"),
     note("Está indicada a colheita de hemoculturas e de líquido intra-peritoneal para exame microbiológico em doentes instáveis clinicamente, em infeções adquiridas em ambiente hospitalar e se existirem fatores de risco para microrganismos multirresistentes. Duas hemoculturas (duas punções em locais diferentes; de cada punção 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose), sempre antes da toma do antimicrobiano. Líquido intra-peritoneal para recipiente estéril e enviar para cultura (solicitar recipientes apropriados para anaeróbios).",
          src("6.2 Produtos a colher para estudo microbiológico", 5), kind="microbiology"),
+    note("As doses de antibioterapia devem ser ajustadas à função renal.", src("6.2.4", 6), kind="renal"),
     note("Se houver isolamento microbiológico em hemoculturas ou no líquido peritoneal aspirado aquando da cirurgia, a antibioterapia deve ser ajustada ao agente isolado e sempre tendo em conta os princípios de utilização dos antibióticos com menor espectro e toxicidade.",
          src("6.3 Tratamento antimicrobiano dirigido", 6), kind="deescalation"),
     note("Perante controlo de foco bem-sucedido e evolução clínica favorável, a transição para antibioterapia oral deve ocorrer o mais precocemente possível, idealmente ajustado ao isolamento. Em doentes sem critérios de sépsis e sem fatores de mau prognóstico e sem isolamento microbiológico pode ser considerado completar o tratamento via oral com cefixime 400mg/dia + metronidazol 500mg 8/8h.",
@@ -120,13 +126,21 @@ p176_common = [
     note("No caso de evolução desfavorável, ponderar reavaliação de controlo de foco com recurso a MCDTs dirigidos, devendo a duração de antibioterapia nestes casos ser definida caso a caso. Em determinadas situações, nomeadamente abcesso intra-abdominal em quadros com semanas de evolução, pode apenas estar indicada a drenagem percutânea associada a antibioterapia, devendo esta ser mantida até controlo adequado de foco.",
          src("6.5 Duração da antibioterapia", 7), kind="source_control"),
 ]
-p176_dur_surg = [
+p176_dur = [
+    note("Abordagem terapêutica sem cirurgia: Antibioterapia EV durante 48-72h seguida de 7-10 dias de antibioterapia oral.",
+         src("6.5 Duração da antibioterapia — 1) Abordagem terapêutica sem cirurgia", 6),
+         when={"q_abordagem": "exclusiva"}, kind="duration"),
     note("Apendicite aguda complicada: 96h após a cirurgia, se controlo de foco adequado.",
          src("6.5 Duração da antibioterapia — 2) Abordagem terapêutica com cirurgia + antibioterapia", 7),
          when={"q_indicacao": "complicada"}, kind="duration"),
-    note("Duração não definida no protocolo para doença não complicada com FR para doença complicada ou com dúvida sobre controlo de foco (o protocolo refere apenas: 'Apendicite aguda não complicada: sem necessidade, se controlo de foco adequado').",
-         src("6.5 Duração da antibioterapia", 7), when={"q_indicacao": ["fr", "duvida"]}, issues=["B5"], kind="duration"),
+    note("Fatores de risco para doença complicada: 96h após a cirurgia.",
+         src("Validação clínica B5 (CLINICAL_AUDIT.md §10)", None),
+         when={"q_indicacao": "fr"}, kind="duration"),
+    note("Dúvida se controlo de foco: duração dependente da evolução clínica.",
+         src("Validação clínica B5 (CLINICAL_AUDIT.md §10); 6.5", 7),
+         when={"q_indicacao": "duvida"}, kind="duration"),
 ]
+P176_MR_NEXT = YES_NO("q_gravidade", "r_ceftriaxone", "FR MR", "Sem FR MR")
 
 protocols.append({
     "id": "apendicite",
@@ -147,24 +161,26 @@ protocols.append({
                           "source": src("Figura 1 (nota); Tabela 4", 8), "issues": ["m4"]},
         "complicada": {"label": "Apendicite complicada", "items": ["Presença de gangrena, abcesso, perfuração e/ou peritonite generalizada"],
                        "source": src("Tabela 4 nota a", 4)},
+        "tabela4": {"label": "Tabela 4 — Abordagem terapêutica da apendicite aguda", "items": [
+            "Complicada e/ou instabilidade clínica: Cirurgia + Antibioterapia",
+            "Não complicada com fatores de risco para doença complicada (apendicolito, idade avançada, gravidez, imunossupressão): Cirurgia +/- Antibioterapia",
+            "Não complicada, localizada e sem fatores de risco para doença complicada: Antibioterapia exclusiva ou Cirurgia +/- Antibioterapia",
+        ], "source": src("6.1 — Tabela 4", 4)},
     },
     "allergyQuestion": {"prompt": "Alergia com indicação para evicção de β-lactâmicos?", "source": src("Figura 1", 8)},
-    "intro": [
-        note("Tabela 4 — Complicada e/ou instabilidade clínica: Cirurgia + Antibioterapia. Não complicada com fatores de risco para doença complicada (apendicolito, idade avançada, gravidez, imunossupressão): Cirurgia +/- Antibioterapia. Não complicada, localizada e sem fatores de risco: Antibioterapia exclusiva ou Cirurgia +/- Antibioterapia.",
-             src("6.1 Abordagem terapêutica — Tabela 4", 4)),
-    ],
+    "intro": [],
     "start": "q_abordagem",
     "nodes": {
         "q_abordagem": {
             "type": "question",
             "prompt": "Abordagem terapêutica",
             "help": "* Decisão de antibioterapia exclusiva deve ter em consideração a taxa aumentada de recorrência e internamentos potencialmente mais prolongados. Antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
-            "definitionRefs": ["complicada", "fr_complicada"],
+            "definitionRefs": ["tabela4", "complicada", "fr_complicada"],
             "options": [
                 {"id": "cirurgia", "label": "Apendicectomia", "next": "q_indicacao", "crumb": "Apendicectomia"},
-                {"id": "exclusiva", "label": "Antibioterapia exclusiva (sem cirurgia)", "next": "r_exclusiva", "crumb": "Antibioterapia exclusiva"},
+                {"id": "exclusiva", "label": "Antibioterapia exclusiva (sem cirurgia)", "next": "q_mr", "crumb": "Antibioterapia exclusiva"},
             ],
-            "source": src("Figura 1; Tabela 4", 8),
+            "source": src("Figura 1; Tabela 4; Validação clínica B4", 8),
         },
         "q_indicacao": {
             "type": "question",
@@ -182,7 +198,7 @@ protocols.append({
             "type": "question",
             "prompt": "Fatores de risco para MR?",
             "definitionRefs": ["mdr"],
-            "options": YES_NO("q_gravidade", "r_ceftriaxone", "FR MR", "Sem FR MR"),
+            "options": P176_MR_NEXT,
             "source": src("Figura 1", 8, "Losango 'Fatores de risco para MR?'"),
         },
         "q_gravidade": {
@@ -198,7 +214,7 @@ protocols.append({
             "title": "Sem necessidade de antibioterapia se controlo de foco adequado",
             "duration": [note("Apendicite aguda não complicada: sem necessidade, se controlo de foco adequado.",
                               src("6.5 Duração da antibioterapia", 7), kind="duration")],
-            "notes": p176_common[1:2] + p176_common[5:],
+            "notes": p176_common[6:7],
             "source": [src("Figura 1", 8, "Caixa 'Sem necessidade de antibioterapia se controlo de foco adequado'")],
         },
         "r_ceftriaxone": {
@@ -209,7 +225,7 @@ protocols.append({
                                   [drug("Ceftriaxone", "2 g", "EV", "id"), drug("Metronidazol", "500 mg", "EV", "q8h")],
                                   src("6.2.1; Figura 1", 5))],
             "allergy": [p176_allergy_nonmr],
-            "duration": p176_dur_surg,
+            "duration": p176_dur,
             "notes": p176_common,
             "source": [src("6.2.1", 5), src("Figura 1", 8)],
         },
@@ -222,13 +238,13 @@ protocols.append({
             "alternatives": [
                 regimen("Cefepime 2g EV q8h + Metronidazol 500mg EV q8h",
                         [drug("Cefepime", "2 g", "EV", "q8h"), drug("Metronidazol", "500 mg", "EV", "q8h")],
-                        src("6.2.2", 6), issues=["B5"]),
+                        src("6.2.2", 6), issues=["B5b"]),
                 regimen("Ertapenem 1g EV id (se colonização por Enterobacteriaceae ESBL+)",
                         [drug("Ertapenem", "1 g", "EV", "id")], src("6.2.2", 6),
-                        label="Se colonização por Enterobacteriaceae ESBL+", issues=["B5"]),
+                        label="Se colonização por Enterobacteriaceae ESBL+", issues=["B5b"]),
             ],
-            "allergy": [p176_allergy_mr],
-            "duration": p176_dur_surg,
+            "allergy": [p176_allergy_mr_nosev],
+            "duration": p176_dur,
             "notes": p176_common,
             "source": [src("6.2.2", 5), src("Figura 1", 8)],
         },
@@ -238,28 +254,11 @@ protocols.append({
             "title": "Apendicite — FR para MR, com critérios de gravidade",
             "firstLine": [regimen("Meropenem 2g EV q8h",
                                   [drug("Meropenem", "2 g", "EV", "q8h")], src("6.2.3; Figura 1", 6))],
-            "allergy": [p176_allergy_mr],
-            "duration": p176_dur_surg,
+            "allergy": [p176_allergy_mr_sev],
+            "duration": p176_dur,
             "notes": p176_common,
             "source": [src("6.2.3", 6), src("Figura 1", 8)],
             "issues": ["m6"],
-        },
-        "r_exclusiva": {
-            "type": "result",
-            "antibiotherapy": True,
-            "pending": True,
-            "title": "Antibioterapia exclusiva (sem cirurgia)",
-            "firstLine": [],
-            "duration": [note("Antibioterapia EV durante 48-72h seguida de 7-10 dias de antibioterapia oral.",
-                              src("6.5 Duração da antibioterapia — 1) Abordagem terapêutica sem cirurgia", 6), kind="duration")],
-            "notes": [
-                note("O protocolo não define um esquema antibiótico específico para a estratégia de antibioterapia exclusiva.",
-                     src("6.1; 6.2; 6.5", 4), issues=["B4"], kind="warning"),
-                note("A decisão de antibioterapia exclusiva deve ter em consideração a taxa aumentada de recorrência de doença, cerca de 23-27% em 1 ano, e internamentos potencialmente mais prolongados, pelo que deverá ser ponderada cuidadosamente. Apesar da idade avançada ser um fator de risco para doença complicada, a antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
-                     src("6.1 Abordagem terapêutica", 4), kind="warning"),
-            ] + p176_common,
-            "source": [src("6.1; Tabela 4", 4), src("6.5", 6)],
-            "issues": ["B4"],
         },
     },
 })
@@ -290,8 +289,8 @@ p178_common = [
          src("6.5 Duração da antibioterapia", 7), kind="source_control"),
 ]
 p178_duration = [
-    note("Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo [menos] 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
-         src("6.5 Duração da antibioterapia", 7), kind="duration", issues=["m3"]),
+    note("Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo menos 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
+         src("6.5 Duração da antibioterapia", 7), kind="duration"),
     note("Caso haja controlo de foco adequado (por abordagem cirúrgica ou drenagem percutânea), a antibioterapia pode ser suspensa 4 dias após a intervenção.",
          src("6.5 Duração da antibioterapia", 7), kind="duration"),
     note("No caso de existência de abcesso sem possibilidade de drenagem ou abordagem cirúrgica, o caso deve ter uma abordagem individualizada, de acordo com evolução clínica e imagiológica.",
@@ -344,15 +343,14 @@ protocols.append({
         "q_fr_naocomplicada": {
             "type": "question",
             "prompt": "Fatores de risco para doença complicada?",
-            "help": "Figura 1 apresenta apenas 'Imunosupressão?'. Tabela 2 e texto (6.1) incluem também Sépsis/Choque Séptico.",
+            "help": "Na diverticulite aguda não complicada não se recomenda a utilização de antibioterapia, exceto em doentes imunodeprimidos ou em sépsis (6.1; Tabela 2).",
             "definitionRefs": ["imunossupressao", "sepsis"],
             "options": [
                 {"id": "imuno", "label": "Imunossupressão", "next": "q_mdr", "crumb": "Imunossupressão"},
-                {"id": "sepsis", "label": "Sépsis / Choque séptico", "next": "q_mdr", "crumb": "Sépsis/Choque séptico", "issues": ["B6"]},
+                {"id": "sepsis", "label": "Sépsis / Choque séptico", "next": "q_mdr", "crumb": "Sépsis/Choque séptico"},
                 {"id": "nenhum", "label": "Nenhum", "next": "r_sem_atb", "crumb": "Sem FR"},
             ],
-            "source": src("Figura 1; Tabela 2; 6.1", 3),
-            "issues": ["B6"],
+            "source": src("Figura 1; Tabela 2; 6.1; Validação clínica B6", 3),
         },
         "q_mdr": {
             "type": "question",
@@ -685,18 +683,30 @@ protocols.append({
 
 # ===========================================================================
 # PAC174 — Infeção associada a pancreatite aguda
+#   Two distinct pathways (Validação clínica B1):
+#   (a) Necrose (peri)pancreática infetada  -> Fluxograma p.3 (MDR first)
+#   (b) Antibioterapia empírica (infeção não comprovada) -> texto 6.2, gravidade = Atlanta revista (secção 6)
 # ===========================================================================
-p174_allergy = lambda mdr: regimen(  # noqa: E731
+P174_ALLERGY_VERB = "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h"
+p174_allergy_nec = lambda mdr: regimen(  # noqa: E731
     "Alergia a beta-lactâmicos: Ciprofloxacina 400mg 12/12h (se FR MDR: 8/8h) EV + Metronidazol 500mg 8/8h EV",
     [drug("Ciprofloxacina", "400 mg", "EV", "8/8h" if mdr else "12/12h"), drug("Metronidazol", "500 mg", "EV", "8/8h")],
-    src("Fluxograma (p. 3); 6.2.3", 3),
+    src("Fluxograma (p. 3)", 3),
 )
+p174_allergy_emp = [
+    regimen(P174_ALLERGY_VERB, [drug("Ciprofloxacina", "400 mg", "EV", "q12h"), drug("Metronidazol", "500 mg", "EV", "q8h")],
+            src("6.2.3", 5), label="Sem fatores de risco para MDROs", when={"q_mdr": "nao"}),
+    regimen(P174_ALLERGY_VERB, [drug("Ciprofloxacina", "400 mg", "EV", "q8h"), drug("Metronidazol", "500 mg", "EV", "q8h")],
+            src("6.2.3", 5), label="Com fatores de risco para MDROs", when={"q_mdr": "sim"}),
+]
 p174_common = [
-    note("As doses de antibioterapia devem ser ajustadas à função renal.", src("6.2.3", 5), kind="renal"),
     note("Hemoculturas (se o doente tiver febre): duas amostras (duas punções em locais diferentes; de cada punção 20mL: 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose); se possível antes da primeira toma do antimicrobiano. Líquido de drenagem (em doentes em que seja considerada drenagem percutânea ou transgástrica): aerobiose em frasco estéril; anaerobiose em recipiente apropriado a solicitar ao laboratório.",
          src("1. Produtos a colher para estudo microbiológico", 4), kind="microbiology"),
     note("A punção aspirativa não está indicada por rotina e não deve ser um critério para iniciar ou não antibioterapia (uma punção aspirativa negativa não exclui indicação para antibiótico).",
          src("6.1", 4)),
+    note("Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+         src("6.1", 4)),
+    note("As doses de antibioterapia devem ser ajustadas à função renal.", src("6.2.3", 5), kind="renal"),
     note("O tratamento antifúngico não deve ser utilizado por rotina na necrose pancreática infetada. Pode ser considerada a associação de antifúngico em doentes com disfunção grave de órgão ou instabilidade hemodinâmica atribuíveis à infeção, a suspender após estabilidade clínica e caso não exista evidência de infeção fúngica.",
          src("6.2.3", 5), kind="warning", issues=["m12"]),
     note("Se houver isolamento microbiológico em hemoculturas ou no líquido de drenagem aquando da cirurgia, a antibioterapia deve ser ajustada ao agente isolado e sempre tendo em conta os princípios de utilização dos antibióticos com menor espectro e toxicidade.",
@@ -708,6 +718,13 @@ p174_common = [
 ]
 p174_dur = [note("A duração da antibioterapia na pancreatite deve ser individualizada. A suspensão de antibioterapia pode ser ponderada após melhoria clínica e imagiológica sustentadas. A extensão da infeção e a existência de uma abordagem para controlo do foco devem ser tidos em conta na decisão da duração do tratamento.",
                  src("6.3 Duração de antibioterapia e seguimento", 6), kind="duration")]
+p174_nec_extra = [note("Caso a deterioração clínica esteja associada a gravidade significativa, pode ser considerado o início de antibioterapia mesmo na ausência de gás no interior da loca de necrose, com a possibilidade de suspensão da mesma caso o diagnóstico de infeção não se confirme.",
+                       src("6.1 Abordagem terapêutica", 3), kind="warning")]
+
+CEF_METRO_174 = lambda verb, s: regimen(verb, [drug("Ceftriaxone", "2 g", "EV", "id"), drug("Metronidazol", "500 mg", "EV", "8/8h")], s)  # noqa: E731
+PIP_174 = lambda verb, s: regimen(verb, [drug("Piperacilina/tazobactam", "4,5 g", "EV", "6/6h")], s)  # noqa: E731
+MERO_174 = lambda verb, s: regimen(verb, [drug("Meropenem", "1 g", "EV", "8/8h")], s)  # noqa: E731
+
 protocols.append({
     "id": "pancreatite",
     "code": "ULSSJ-PAC174-0",
@@ -717,9 +734,7 @@ protocols.append({
     "edition": "Março 2026",
     "approved": "27/03/2026",
     "scope": "É aplicável aos doentes adultos com patologia infeciosa relacionada com pancreatite aguda.",
-    "keywords": ["pancreatite", "necrose", "WON", "pancreatitis"],
-    "pending": True,
-    "issues": ["B1"],
+    "keywords": ["pancreatite", "necrose", "WON", "Atlanta", "pancreatitis"],
     "definitions": {
         "mdr": {"label": "Fatores de risco para infeções por agentes multirresistentes", "items": MDR_STD, "source": src("Fluxograma nota 2; 6.2", 3)},
         "necrose_infetada": {"label": "Necrose (peripancreática) infetada", "items": [
@@ -728,103 +743,155 @@ protocols.append({
             "Se dúvida sobre indicação para antibioterapia: em doentes clinicamente estáveis, procalcitonina < 1 ng/mL deve levar a suspender ou não iniciar antibiótico",
         ], "source": src("Fluxograma nota 1", 3)},
         "gravidade": {"label": "Gravidade clínica", "items": ["Sepsis", "Instabilidade hemodinâmica"], "source": src("Fluxograma", 3)},
+        "atlanta": {"label": "Gravidade da pancreatite aguda (Atlanta revista)", "items": [
+            "Ligeira (Ø falência de órgão, complicações locais ou sistémicas; resolução na 1ª semana)",
+            "Moderada (falência de órgão <48h, complicações locais ou exacerbação de comorbilidade)",
+            "Grave (falência de órgão sustentada, >48h)",
+        ], "source": src("6. Descrição", 2)},
+        "disfuncao": {"label": "Critério para meropenem na ausência de FR MDROs (6.2.2)", "items": [
+            "Disfunção grave de órgão / instabilidade hemodinâmica atribuíveis à infeção"], "source": src("6.2.2", 5)},
     },
-    "allergyQuestion": {"prompt": "Alergia a beta-lactâmicos?", "source": src("Fluxograma", 3)},
+    "allergyQuestion": {"prompt": "Alergia a beta-lactâmicos?", "source": src("Fluxograma; 6.2.3", 3)},
     "intro": [],
-    "start": "q_suspeita",
+    "start": "q_contexto",
     "nodes": {
-        "q_suspeita": {
+        "q_contexto": {
             "type": "question",
-            "prompt": "Suspeita de necrose (peri)pancreática infetada?",
-            "help": "Na ausência de outros achados sugestivos de infeção, não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+            "prompt": "Indicação",
+            "help": "Necrose (peri)pancreática infetada: fluxograma (p. 3). Antibioterapia empírica sem infeção comprovada: secção 6.2, gravidade segundo a classificação de Atlanta revista.",
             "definitionRefs": ["necrose_infetada"],
-            "options": YES_NO("q_mdr", "r_sem_atb", "Suspeita de necrose infetada", "Sem suspeita de necrose infetada"),
+            "options": [
+                {"id": "necrose", "label": "Suspeita de necrose (peri)pancreática infetada", "next": "q_mdr_nec", "crumb": "Necrose (peri)pancreática infetada"},
+                {"id": "empirica", "label": "Infeção associada a pancreatite — antibioterapia empírica (infeção não comprovada)", "next": "q_atlanta", "crumb": "Antibioterapia empírica"},
+                {"id": "nao", "label": "Sem suspeita de infeção", "next": "r_sem_atb", "crumb": "Sem suspeita de infeção"},
+            ],
+            "source": src("Fluxograma; 6.1; 6.2; Validação clínica B1", 3),
+        },
+        "q_mdr_nec": {
+            "type": "question", "prompt": "Fatores de risco para agentes multirresistentes MDR?", "definitionRefs": ["mdr"],
+            "options": YES_NO("q_gravidade_nec", "r_nec_ceftriaxone", "FR MDR", "Sem FR MDR"),
+            "source": src("Fluxograma", 3), "answerKey": "q_mdr", "issues": ["m10"],
+        },
+        "q_gravidade_nec": {
+            "type": "question", "prompt": "Gravidade clínica (sepsis, instabilidade hemodinâmica)?", "definitionRefs": ["gravidade"],
+            "options": YES_NO("r_nec_meropenem", "r_nec_piptazo", "Gravidade clínica", "Sem gravidade clínica"),
             "source": src("Fluxograma", 3),
         },
-        "q_mdr": {
-            "type": "question",
-            "prompt": "Fatores de risco para agentes multirresistentes MDR?",
-            "definitionRefs": ["mdr"],
-            "options": YES_NO("q_gravidade", "r_ceftriaxone", "FR MDR", "Sem FR MDR"),
-            "source": src("Fluxograma", 3),
-            "issues": ["B1", "m10"],
+        "q_atlanta": {
+            "type": "question", "prompt": "Gravidade da pancreatite aguda (Atlanta revista)", "definitionRefs": ["atlanta"],
+            "options": [
+                {"id": "ligeira", "label": "Ligeira", "next": "q_mdr_lig", "crumb": "Pancreatite ligeira"},
+                {"id": "moderada", "label": "Moderada", "next": "q_mdr_mg", "crumb": "Pancreatite moderada"},
+                {"id": "grave", "label": "Grave", "next": "q_mdr_mg", "crumb": "Pancreatite grave"},
+            ],
+            "source": src("6. Descrição; 6.2.1; 6.2.2; Validação clínica B1", 5),
         },
-        "q_gravidade": {
-            "type": "question",
-            "prompt": "Gravidade clínica (sepsis, instabilidade hemodinâmica)?",
-            "definitionRefs": ["gravidade"],
-            "options": YES_NO("r_meropenem", "r_piptazo", "Gravidade clínica", "Sem gravidade clínica"),
-            "source": src("Fluxograma", 3),
-            "issues": ["B1"],
+        "q_mdr_lig": {
+            "type": "question", "prompt": "Fatores de risco para MDROs?", "definitionRefs": ["mdr"],
+            "help": "Na pancreatite sem critérios de gravidade o esquema de 6.2.1 não depende dos fatores de risco para MDROs; esta resposta define apenas o intervalo da ciprofloxacina em caso de alergia (6.2.3).",
+            "options": YES_NO("r_emp_ceftriaxone", "r_emp_ceftriaxone", "FR MDROs", "Sem FR MDROs"),
+            "source": src("6.2.1; 6.2.3", 5), "answerKey": "q_mdr",
+        },
+        "q_mdr_mg": {
+            "type": "question", "prompt": "Fatores de risco para MDROs?", "definitionRefs": ["mdr"],
+            "options": YES_NO("r_emp_meropenem", "q_disfuncao", "FR MDROs", "Sem FR MDROs"),
+            "source": src("6.2.2", 5), "answerKey": "q_mdr",
+        },
+        "q_disfuncao": {
+            "type": "question", "prompt": "Disfunção grave de órgão / instabilidade hemodinâmica atribuíveis à infeção?", "definitionRefs": ["disfuncao"],
+            "options": YES_NO("r_emp_meropenem", "r_emp_piptazo", "Disfunção grave / instabilidade", "Sem disfunção grave"),
+            "source": src("6.2.2", 5),
         },
         "r_sem_atb": {
             "type": "result", "antibiotherapy": False,
             "title": "Sem indicação para antibioterapia",
-            "notes": p174_common[2:3],
+            "notes": p174_common[1:3],
             "source": [src("Fluxograma", 3)],
         },
-        "r_ceftriaxone": {
-            "type": "result", "antibiotherapy": True, "pending": True,
-            "title": "Pancreatite — necrose infetada (ramo 'sem FR MDR' do fluxograma)",
-            "firstLine": [regimen("Ceftriaxone 2g id + metronidazol 500mg 8/8h EV",
-                                  [drug("Ceftriaxone", "2 g", "EV", "id"), drug("Metronidazol", "500 mg", "EV", "8/8h")],
-                                  src("Fluxograma; 6.2.1", 3))],
-            "allergy": [p174_allergy(False)],
-            "duration": p174_dur, "notes": p174_common,
-            "source": [src("Fluxograma", 3), src("6.2.1", 5)], "issues": ["B1"],
+        "r_nec_ceftriaxone": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Necrose (peri)pancreática infetada — sem FR MDR",
+            "firstLine": [CEF_METRO_174("Ceftriaxone 2g id + metronidazol 500mg 8/8h EV", src("Fluxograma", 3))],
+            "allergy": [p174_allergy_nec(False)],
+            "duration": p174_dur, "notes": p174_nec_extra + p174_common,
+            "source": [src("Fluxograma", 3)],
         },
-        "r_piptazo": {
-            "type": "result", "antibiotherapy": True, "pending": True,
-            "title": "Pancreatite — necrose infetada (ramo 'FR MDR, sem gravidade' do fluxograma)",
-            "firstLine": [regimen("Piperacilina/Tazobactam 4.5g 6/6h EV",
-                                  [drug("Piperacilina/tazobactam", "4,5 g", "EV", "6/6h")], src("Fluxograma; 6.2.2", 3))],
-            "allergy": [p174_allergy(True)],
-            "duration": p174_dur, "notes": p174_common,
-            "source": [src("Fluxograma", 3), src("6.2.2", 5)], "issues": ["B1"],
+        "r_nec_piptazo": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Necrose (peri)pancreática infetada — FR MDR, sem gravidade clínica",
+            "firstLine": [PIP_174("Piperacilina/Tazobactam 4.5g 6/6h EV", src("Fluxograma", 3))],
+            "allergy": [p174_allergy_nec(True)],
+            "duration": p174_dur, "notes": p174_nec_extra + p174_common,
+            "source": [src("Fluxograma", 3)],
         },
-        "r_meropenem": {
-            "type": "result", "antibiotherapy": True, "pending": True,
-            "title": "Pancreatite — necrose infetada (ramo 'FR MDR, com gravidade' do fluxograma)",
-            "firstLine": [regimen("Se gravidade clínica (sepsis, instabilidade hemodinâmica): Meropenem 1g 8/8h EV",
-                                  [drug("Meropenem", "1 g", "EV", "8/8h")], src("Fluxograma; 6.2.2", 3))],
-            "allergy": [p174_allergy(True)],
+        "r_nec_meropenem": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Necrose (peri)pancreática infetada — FR MDR, com gravidade clínica",
+            "firstLine": [MERO_174("Se gravidade clínica (sepsis, instabilidade hemodinâmica): Meropenem 1g 8/8h EV", src("Fluxograma", 3))],
+            "allergy": [p174_allergy_nec(True)],
+            "duration": p174_dur, "notes": p174_nec_extra + p174_common,
+            "source": [src("Fluxograma", 3)],
+        },
+        "r_emp_ceftriaxone": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Antibioterapia empírica — pancreatite sem critérios de gravidade",
+            "firstLine": [CEF_METRO_174("Ceftriaxone 2g EV id + metronidazol 500mg EV q8h", src("6.2.1", 5))],
+            "allergy": p174_allergy_emp,
             "duration": p174_dur, "notes": p174_common,
-            "source": [src("Fluxograma", 3), src("6.2.2", 5)], "issues": ["B1"],
+            "source": [src("6.2.1", 5)],
+        },
+        "r_emp_piptazo": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Antibioterapia empírica — pancreatite moderada a grave, sem FR MDROs",
+            "firstLine": [PIP_174("Piperacilina/tazobactam 4.5g EV q6h (na ausência de fatores de risco para MDROs)", src("6.2.2", 5))],
+            "allergy": p174_allergy_emp,
+            "duration": p174_dur, "notes": p174_common,
+            "source": [src("6.2.2", 5)],
+        },
+        "r_emp_meropenem": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Antibioterapia empírica — pancreatite moderada a grave, com FR MDROs ou disfunção grave de órgão",
+            "firstLine": [MERO_174("Meropenem 1g EV q8h (em doentes com fatores de risco de MDROs ou disfunção grave de órgão / instabilidade hemodinâmica atribuíveis à infeção)", src("6.2.2", 5))],
+            "allergy": p174_allergy_emp,
+            "duration": p174_dur, "notes": p174_common,
+            "source": [src("6.2.2", 5)],
         },
     },
 })
 
 # ===========================================================================
-# PAC179 — Úlcera gastroduodenal perfurada
+# PAC179 — Úlcera gastroduodenal perfurada  (text 6.3 governs — Validação clínica B2)
 # ===========================================================================
 P179_ENTERO = regimen(
     "*Considerar adicionar cobertura para Enterococcus spp (vancomicina 15-20mg/kg/8-12h, ou, em alternativa, daptomicina 8-10 mg/kg/dia ou linezolide 600mg/12h) em: doentes com valvulopatia, prótese valvular ou história de endocardite, imunossupressão, infeção nosocomial ou tratamento prévio com cefalosporinas ou quinolonas.",
     [drug("Vancomicina", "15-20 mg/kg", None, "8-12h"), drug("Daptomicina", "8-10 mg/kg/dia", None, "id", "alternativa"),
      drug("Linezolide", "600 mg", None, "12/12h", "alternativa")],
-    src("6.3 (nota *); Figura 1", 4), label="± cobertura de Enterococcus spp*", issues=["m9"],
+    src("6.3 (nota *)", 4), label="± cobertura de Enterococcus spp*",
 )
 P179_CANDIDA = regimen(
     "**Considerar adicionar cobertura para Candida spp nos seguintes casos: doente crítico, doente sob alimentação parentérica, uso de terapêutica de substituição renal contínua, colonização multifocal por Candida spp, deiscência de sutura gástrica ou duodenal. O antífúngico de eleição é a caspofungina 70mg dose carga + 50mg/24h.",
     [drug("Caspofungina", "70 mg (dose de carga) + 50 mg", None, "24/24h")],
-    src("6.3 (nota **); Figura 1", 4), label="± cobertura de Candida spp**",
+    src("6.3 (nota **)", 4), label="± cobertura de Candida spp**",
 )
-p179_allergy_simple = regimen(
-    "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg /8h + metronidazol 500 mg /8h",
+p179_allergy_metro = regimen(
+    "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + metronidazol 500 mg 8/8h.",
     [drug("Ciprofloxacina", "400 mg", None, "8/8h"), drug("Metronidazol", "500 mg", None, "8/8h")],
-    src("Figura 1", 6), issues=["B9"],
+    src("6.3 — Sem critérios de sépsis, sem fatores de mau prognóstico", 4), issues=["B9"],
 )
 p179_allergy_tige = regimen(
-    "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg/8h + tigeciclina (100 mg e depois 50 mg /12h)",
+    "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + tigeciclina (100 mg e depois 50 mg 12/12h).",
     [drug("Ciprofloxacina", "400 mg", None, "8/8h"), drug("Tigeciclina", "100 mg (dose inicial) e depois 50 mg", None, "12/12h")],
-    src("Figura 1; 6.3", 6), issues=["B2", "B9"],
+    src("6.3 — Com critérios de sépsis ou fatores de mau prognóstico", 4), issues=["B9"],
 )
+PIP_179 = regimen("piperacilina-tazobactam 4,5g 6/6h ± cobertura de Enterococcus spp ± cobertura de Candida spp",
+                  [drug("Piperacilina/tazobactam", "4,5 g", None, "6/6h")], src("6.3", 4), issues=["B9"])
 p179_common = [
+    note("Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados, mesmo em doentes com agravamento clínico.",
+         src("6.2 Produtos a colher para estudo microbiológico", 3), kind="microbiology"),
     note("Recomenda-se antibioterapia empírica em todos os doentes com úlceras pépticas perfuradas. A perfuração de úlcera péptica deve ser tratada como uma peritonite secundária adquirida na comunidade.",
          src("6.1 Abordagem terapêutica", 2)),
     note("Abordagem cirúrgica: Sutura laparoscópica ou via aberta, simples ou double layer com ou sem patch omental (procedimento padrão). Gastrectomia distal (grandes perfurações próximas ao piloro; suspeita de malignidade). Biópsia indicada em todas as úlceras gástricas.",
          src("Figura 1", 6), kind="source_control"),
-    note("Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados.",
-         src("6.2 Produtos a colher para estudo microbiológico", 3), kind="microbiology"),
     note("O esquema antibiótico deve ser de-escalado assim que possível tendo em conta os agentes isolados nos produtos microbiológicos invasivos colhidos.",
          src("6.4", 5), kind="deescalation"),
     note("A antibioterapia pode ser completada por via oral caso exista evolução clínica favorável, controlo adequado do foco e um isolamento microbiológico suscetível a antibióticos eficazes por via oral. Em doentes sem critérios de sépsis e sem fatores de mau prognóstico, mas sem isolamento microbiológico pode ser considerado completar o tratamento por via oral com cefixime 400 mg/dia + metronidazol 500 mg 8/8h.",
@@ -848,67 +915,73 @@ protocols.append({
     "approved": "27/03/2026",
     "scope": "Ver documento fonte (secção 2. Âmbito).",
     "keywords": ["úlcera", "perfurada", "péptica", "gastroduodenal", "peritonite", "perforated ulcer"],
-    "pending": True,
-    "issues": ["B2"],
     "definitions": {
-        "mdr": {"label": "Fatores de risco para infeções por MDROs", "items": MDR_STD, "source": src("6.3; Figura 1", 3)},
+        "mdr": {"label": "Fatores de risco para infeções por agentes multirresistentes", "items": MDR_STD, "source": src("6.3", 3)},
+        "sepsis": {"label": "Sépsis", "items": ["Infeção associada a disfunção orgânica potencialmente ameaçadora de vida (Surviving Sepsis Campaign 2023)"],
+                   "source": src("6.2 nota 1", 3)},
         "mau_prognostico": {"label": "Fatores de mau prognóstico", "items": [
             "Idade > 70 anos",
             "Desnutrição (hipoalbuminemia)",
             "Imunossupressão (doente sob corticoterapia em alta dose (>20 mg/dia) ou outros imunossupressores, imunodeficiência primária, sida, neoplasia sob quimioterapia, diabetes mellitus com mau controlo metabólico)",
             "Comorbilidades significativas: diabetes mellitus com mau controlo metabólico, cirrose hepática, DRC em hemodiálises, neoplasia ativa, DPOC avançada",
-        ], "source": src("6.3", 4), "issues": ["m9"]},
-        "sepsis": {"label": "Sépsis", "items": ["Infeção associada a disfunção orgânica potencialmente ameaçadora de vida (Surviving Sepsis Campaign 2023)"],
-                   "source": src("6.2 nota 1", 3)},
+        ], "source": src("6.3; nota 2", 4)},
     },
-    "allergyQuestion": {"prompt": "Alergia com indicação para evicção de β-lactâmicos?", "source": src("Figura 1", 6)},
+    "allergyQuestion": {"prompt": "Alergia com indicação para evitar beta-lactâmicos?", "source": src("6.3", 4)},
     "intro": [],
-    "start": "q_mdr",
+    "start": "q_gravidade",
     "nodes": {
-        "q_mdr": {
-            "type": "question",
-            "prompt": "Fatores de risco para MDROs?",
-            "definitionRefs": ["mdr"],
-            "options": YES_NO("q_gravidade", "r_ceftriaxone", "FR MDROs", "Sem FR MDROs"),
-            "source": src("Figura 1", 6),
-            "issues": ["B2"],
-        },
         "q_gravidade": {
             "type": "question",
-            "prompt": "Gravidade ou fatores de mau prognóstico?",
+            "prompt": "Critérios de sépsis ou fatores de mau prognóstico?",
             "definitionRefs": ["sepsis", "mau_prognostico"],
-            "options": YES_NO("r_meropenem", "r_piptazo", "Gravidade / mau prognóstico", "Sem gravidade nem mau prognóstico"),
-            "source": src("Figura 1", 6),
-            "issues": ["B2"],
+            "options": YES_NO("q_mdr_grave", "q_mdr_leve", "Sépsis / mau prognóstico", "Sem sépsis nem mau prognóstico"),
+            "source": src("6.3; Validação clínica B2", 4),
+        },
+        "q_mdr_leve": {
+            "type": "question", "prompt": "Fatores de risco para microrganismos multirresistentes?", "definitionRefs": ["mdr"],
+            "options": YES_NO("r_piptazo_leve", "r_ceftriaxone", "FR MDR", "Sem FR MDR"),
+            "source": src("6.3", 4), "answerKey": "q_mdr",
+        },
+        "q_mdr_grave": {
+            "type": "question", "prompt": "Fatores de risco para microrganismos multirresistentes?", "definitionRefs": ["mdr"],
+            "options": YES_NO("r_meropenem", "r_piptazo_grave", "FR MDR", "Sem FR MDR"),
+            "source": src("6.3", 4), "answerKey": "q_mdr",
         },
         "r_ceftriaxone": {
-            "type": "result", "antibiotherapy": True, "pending": True,
-            "title": "Úlcera perfurada — sem FR MDROs (ramo do fluxograma)",
-            "firstLine": [regimen("Ceftriaxone 2g /24h + metronidazol 500 mg /8h",
-                                  [drug("Ceftriaxone", "2 g", None, "24/24h"), drug("Metronidazol", "500 mg", None, "8/8h")],
-                                  src("Figura 1; 6.3", 6), issues=["B9"])],
-            "allergy": [p179_allergy_simple],
+            "type": "result", "antibiotherapy": True,
+            "title": "Úlcera perfurada — sem sépsis, sem fatores de mau prognóstico, sem FR MDR",
+            "firstLine": [regimen("Ceftriaxone 2g/dia + metronidazol 500 mg 8/8h",
+                                  [drug("Ceftriaxone", "2 g/dia", None, None), drug("Metronidazol", "500 mg", None, "8/8h")],
+                                  src("6.3", 4), issues=["B9"])],
+            "allergy": [p179_allergy_metro],
             "duration": p179_dur, "notes": p179_common,
-            "source": [src("Figura 1", 6), src("6.3", 4)], "issues": ["B2"],
+            "source": [src("6.3", 4)],
         },
-        "r_piptazo": {
-            "type": "result", "antibiotherapy": True, "pending": True,
-            "title": "Úlcera perfurada — FR MDROs, sem gravidade nem fatores de mau prognóstico (ramo do fluxograma)",
-            "firstLine": [regimen("Piperacilina-tazobactam 4,5g /6h", [drug("Piperacilina/tazobactam", "4,5 g", None, "6/6h")],
-                                  src("Figura 1; 6.3", 6), issues=["B9"])],
-            "addOns": [P179_ENTERO, P179_CANDIDA],
+        "r_piptazo_leve": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Úlcera perfurada — sem sépsis, sem fatores de mau prognóstico, com FR MDR",
+            "firstLine": [PIP_179], "addOns": [P179_ENTERO, P179_CANDIDA],
+            "allergy": [p179_allergy_metro],
+            "duration": p179_dur_af, "notes": p179_common,
+            "source": [src("6.3", 4)],
+        },
+        "r_piptazo_grave": {
+            "type": "result", "antibiotherapy": True,
+            "title": "Úlcera perfurada — com sépsis ou fatores de mau prognóstico, sem FR MDR",
+            "firstLine": [PIP_179], "addOns": [P179_ENTERO, P179_CANDIDA],
             "allergy": [p179_allergy_tige],
             "duration": p179_dur_af, "notes": p179_common,
-            "source": [src("Figura 1", 6), src("6.3", 4)], "issues": ["B2"],
+            "source": [src("6.3", 4)],
         },
         "r_meropenem": {
-            "type": "result", "antibiotherapy": True, "pending": True,
-            "title": "Úlcera perfurada — FR MDROs, com gravidade ou fatores de mau prognóstico",
-            "firstLine": [regimen("Meropenem 1g/8h", [drug("Meropenem", "1 g", None, "8/8h")], src("Figura 1; 6.3", 6), issues=["B9"])],
+            "type": "result", "antibiotherapy": True,
+            "title": "Úlcera perfurada — com sépsis ou fatores de mau prognóstico, com FR MDR",
+            "firstLine": [regimen("meropenem 1g 8/8h ± cobertura de Enterococcus spp* ± cobertura de Candida spp **",
+                                  [drug("Meropenem", "1 g", None, "8/8h")], src("6.3", 4), issues=["B9", "B10"])],
             "addOns": [P179_ENTERO, P179_CANDIDA],
             "allergy": [p179_allergy_tige],
             "duration": p179_dur_af, "notes": p179_common,
-            "source": [src("Figura 1", 6), src("6.3", 4)], "issues": ["B2"],
+            "source": [src("6.3", 4)],
         },
     },
 })
@@ -957,7 +1030,7 @@ protocols.append({
             "Portadores de próteses valvulares cardíacas;",
             "Utilização de corticoterapia sistémica ou outra terapêutica imunomoduladora em ambulatório;",
             "Outras formas de imunossupressão - imunodeficiência primária, SIDA, neoplasia sob quimioterapia.",
-        ], "source": src("6.3; Tabela 1; Tabela 2", 4), "issues": ["B7"]},
+        ], "source": src("6.3; Tabela 1; Tabela 2; Validação clínica B7", 4)},
         "gravidade": {"label": "Gravidade clínica", "items": [
             "Infeção associada a disfunção orgânica potencialmente ameaçadora de vida (6.1)",
             "Sepsis, instabilidade hemodinâmica (Figura 1)",
@@ -986,8 +1059,7 @@ protocols.append({
                 {"id": "fr_clinico", "label": "Fatores de risco clínico (sem gravidade clínica)", "next": "q_mdr_fr", "crumb": "FR clínico"},
                 {"id": "nao", "label": "Não", "next": "r_vigilancia", "crumb": "Sem critérios"},
             ],
-            "source": src("Figura 1; Tabela 1; 6.1", 3),
-            "issues": ["B7"],
+            "source": src("Tabela 1; 6.1; Validação clínica B7", 3),
         },
         "q_mdr_grave": {
             "type": "question", "prompt": "Fatores de risco MDR?", "definitionRefs": ["mdr"],
@@ -1013,13 +1085,13 @@ protocols.append({
                 regimen("Opção EV: Ceftriaxone 2g IV id + Metronidazol 500mg IV q8h",
                         [drug("Ceftriaxone", "2 g", "IV", "id"), drug("Metronidazol", "500 mg", "IV", "q8h")], src("Tabela 2; Figura 1", 5), label="Opção EV"),
                 regimen("Opção oral: Cefixima 400mg PO id + Metronidazol 500mg PO 8/8H",
-                        [drug("Cefixima", "400 mg", "PO", "id"), drug("Metronidazol", "500 mg", "PO", "8/8h")], src("Tabela 2", 5), label="Opção oral", issues=["B7"]),
+                        [drug("Cefixima", "400 mg", "PO", "id"), drug("Metronidazol", "500 mg", "PO", "8/8h")], src("Tabela 2; Validação clínica B7", 5), label="Opção oral (apenas sem gravidade clínica)", when={"q_criterios": "fr_clinico"}),
             ],
             "allergy": [
                 regimen("Opção EV: Ciprofloxacina 400mg IV 12/12H + Metronidazol 500mg IV 8/8H",
                         [drug("Ciprofloxacina", "400 mg", "IV", "12/12h"), drug("Metronidazol", "500 mg", "IV", "8/8h")], src("Tabela 2; Figura 1", 5), label="Opção EV"),
                 regimen("Opção oral: Ciprofloxacina 500mg PO 12/12H + Metronidazol 500mg PO 8/8H",
-                        [drug("Ciprofloxacina", "500 mg", "PO", "12/12h"), drug("Metronidazol", "500 mg", "PO", "8/8h")], src("Tabela 2", 5), label="Opção oral", issues=["B7"]),
+                        [drug("Ciprofloxacina", "500 mg", "PO", "12/12h"), drug("Metronidazol", "500 mg", "PO", "8/8h")], src("Tabela 2; Validação clínica B7", 5), label="Opção oral (apenas sem gravidade clínica)", when={"q_criterios": "fr_clinico"}),
             ],
             "duration": p173_dur, "notes": p173_common,
             "source": [src("Tabela 2", 5), src("Figura 1", 7)],

@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 data = json.loads((ROOT / "data" / "protocols.json").read_text(encoding="utf-8"))
 audit_path = ROOT / "CLINICAL_AUDIT.md"
 audit = audit_path.read_text(encoding="utf-8") if audit_path.exists() else ""
-documented = set(re.findall(r"\*\*\[([Bm]\d+)\]", audit))
+documented = set(re.findall(r"\*\*\[([Bm]\d+[a-z]?)\]", audit))
 
 errors, warnings = [], []
 stats = []

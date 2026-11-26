@@ -73,6 +73,18 @@
             "section": "Tabela 4 nota a",
             "page": 4
           }
+        },
+        "tabela4": {
+          "label": "Tabela 4 — Abordagem terapêutica da apendicite aguda",
+          "items": [
+            "Complicada e/ou instabilidade clínica: Cirurgia + Antibioterapia",
+            "Não complicada com fatores de risco para doença complicada (apendicolito, idade avançada, gravidez, imunossupressão): Cirurgia +/- Antibioterapia",
+            "Não complicada, localizada e sem fatores de risco para doença complicada: Antibioterapia exclusiva ou Cirurgia +/- Antibioterapia"
+          ],
+          "source": {
+            "section": "6.1 — Tabela 4",
+            "page": 4
+          }
         }
       },
       "allergyQuestion": {
@@ -82,16 +94,7 @@
           "page": 8
         }
       },
-      "intro": [
-        {
-          "kind": "info",
-          "text": "Tabela 4 — Complicada e/ou instabilidade clínica: Cirurgia + Antibioterapia. Não complicada com fatores de risco para doença complicada (apendicolito, idade avançada, gravidez, imunossupressão): Cirurgia +/- Antibioterapia. Não complicada, localizada e sem fatores de risco: Antibioterapia exclusiva ou Cirurgia +/- Antibioterapia.",
-          "source": {
-            "section": "6.1 Abordagem terapêutica — Tabela 4",
-            "page": 4
-          }
-        }
-      ],
+      "intro": [],
       "start": "q_abordagem",
       "nodes": {
         "q_abordagem": {
@@ -99,6 +102,7 @@
           "prompt": "Abordagem terapêutica",
           "help": "* Decisão de antibioterapia exclusiva deve ter em consideração a taxa aumentada de recorrência e internamentos potencialmente mais prolongados. Antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
           "definitionRefs": [
+            "tabela4",
             "complicada",
             "fr_complicada"
           ],
@@ -112,12 +116,12 @@
             {
               "id": "exclusiva",
               "label": "Antibioterapia exclusiva (sem cirurgia)",
-              "next": "r_exclusiva",
+              "next": "q_mr",
               "crumb": "Antibioterapia exclusiva"
             }
           ],
           "source": {
-            "section": "Figura 1; Tabela 4",
+            "section": "Figura 1; Tabela 4; Validação clínica B4",
             "page": 8
           }
         },
@@ -227,14 +231,6 @@
           ],
           "notes": [
             {
-              "kind": "microbiology",
-              "text": "Está indicada a colheita de hemoculturas e de líquido intra-peritoneal para exame microbiológico em doentes instáveis clinicamente, em infeções adquiridas em ambiente hospitalar e se existirem fatores de risco para microrganismos multirresistentes. Duas hemoculturas (duas punções em locais diferentes; de cada punção 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose), sempre antes da toma do antimicrobiano. Líquido intra-peritoneal para recipiente estéril e enviar para cultura (solicitar recipientes apropriados para anaeróbios).",
-              "source": {
-                "section": "6.2 Produtos a colher para estudo microbiológico",
-                "page": 5
-              }
-            },
-            {
               "kind": "source_control",
               "text": "No caso de evolução desfavorável, ponderar reavaliação de controlo de foco com recurso a MCDTs dirigidos, devendo a duração de antibioterapia nestes casos ser definida caso a caso. Em determinadas situações, nomeadamente abcesso intra-abdominal em quadros com semanas de evolução, pode apenas estar indicada a drenagem percutânea associada a antibioterapia, devendo esta ser mantida até controlo adequado de foco.",
               "source": {
@@ -301,11 +297,22 @@
                 "element": "Caixa 'Fatores de risco para MR? — Não'"
               },
               "issues": [
-                "B3"
+                "B3b"
               ]
             }
           ],
           "duration": [
+            {
+              "kind": "duration",
+              "text": "Abordagem terapêutica sem cirurgia: Antibioterapia EV durante 48-72h seguida de 7-10 dias de antibioterapia oral.",
+              "source": {
+                "section": "6.5 Duração da antibioterapia — 1) Abordagem terapêutica sem cirurgia",
+                "page": 6
+              },
+              "when": {
+                "q_abordagem": "exclusiva"
+              }
+            },
             {
               "kind": "duration",
               "text": "Apendicite aguda complicada: 96h após a cirurgia, se controlo de foco adequado.",
@@ -319,29 +326,37 @@
             },
             {
               "kind": "duration",
-              "text": "Duração não definida no protocolo para doença não complicada com FR para doença complicada ou com dúvida sobre controlo de foco (o protocolo refere apenas: 'Apendicite aguda não complicada: sem necessidade, se controlo de foco adequado').",
+              "text": "Fatores de risco para doença complicada: 96h após a cirurgia.",
               "source": {
-                "section": "6.5 Duração da antibioterapia",
+                "section": "Validação clínica B5 (CLINICAL_AUDIT.md §10)",
+                "page": null
+              },
+              "when": {
+                "q_indicacao": "fr"
+              }
+            },
+            {
+              "kind": "duration",
+              "text": "Dúvida se controlo de foco: duração dependente da evolução clínica.",
+              "source": {
+                "section": "Validação clínica B5 (CLINICAL_AUDIT.md §10); 6.5",
                 "page": 7
               },
               "when": {
-                "q_indicacao": [
-                  "fr",
-                  "duvida"
-                ]
-              },
-              "issues": [
-                "B5"
-              ]
+                "q_indicacao": "duvida"
+              }
             }
           ],
           "notes": [
             {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "kind": "warning",
+              "text": "Antibioterapia exclusiva: a decisão deve ter em consideração a taxa aumentada de recorrência de doença, cerca de 23-27% em 1 ano, e internamentos potencialmente mais prolongados, pelo que deverá ser ponderada cuidadosamente. Apesar da idade avançada ser um fator de risco para doença complicada, a antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
               "source": {
-                "section": "6.2.4",
-                "page": 6
+                "section": "6.1 Abordagem terapêutica",
+                "page": 4
+              },
+              "when": {
+                "q_abordagem": "exclusiva"
               }
             },
             {
@@ -350,6 +365,14 @@
               "source": {
                 "section": "6.2 Produtos a colher para estudo microbiológico",
                 "page": 5
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.4",
+                "page": 6
               }
             },
             {
@@ -439,7 +462,7 @@
                 "page": 6
               },
               "issues": [
-                "B5"
+                "B5b"
               ]
             },
             {
@@ -458,38 +481,45 @@
               },
               "label": "Se colonização por Enterobacteriaceae ESBL+",
               "issues": [
-                "B5"
+                "B5b"
               ]
             }
           ],
           "allergy": [
             {
-              "verbatim": "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg/8h + tigeciclina (100 mg e depois 50 mg /12h)",
+              "verbatim": "Se alergia: Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h",
               "drugs": [
                 {
                   "drug": "Ciprofloxacina",
                   "dose": "400 mg",
-                  "route": null,
-                  "interval": "8/8h"
+                  "route": "EV",
+                  "interval": "q8h"
                 },
                 {
-                  "drug": "Tigeciclina",
-                  "dose": "100 mg (dose inicial) e depois 50 mg",
-                  "route": null,
-                  "interval": "12/12h"
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
                 }
               ],
               "source": {
-                "section": "Figura 1 — Fluxograma de antibioterapia recomendado na AA",
-                "page": 8,
-                "element": "Caixa 'Fatores de risco para MR? — Sim'"
-              },
-              "issues": [
-                "B3"
-              ]
+                "section": "6.2.4 + Validação clínica B3 (CLINICAL_AUDIT.md §10)",
+                "page": 6
+              }
             }
           ],
           "duration": [
+            {
+              "kind": "duration",
+              "text": "Abordagem terapêutica sem cirurgia: Antibioterapia EV durante 48-72h seguida de 7-10 dias de antibioterapia oral.",
+              "source": {
+                "section": "6.5 Duração da antibioterapia — 1) Abordagem terapêutica sem cirurgia",
+                "page": 6
+              },
+              "when": {
+                "q_abordagem": "exclusiva"
+              }
+            },
             {
               "kind": "duration",
               "text": "Apendicite aguda complicada: 96h após a cirurgia, se controlo de foco adequado.",
@@ -503,29 +533,37 @@
             },
             {
               "kind": "duration",
-              "text": "Duração não definida no protocolo para doença não complicada com FR para doença complicada ou com dúvida sobre controlo de foco (o protocolo refere apenas: 'Apendicite aguda não complicada: sem necessidade, se controlo de foco adequado').",
+              "text": "Fatores de risco para doença complicada: 96h após a cirurgia.",
               "source": {
-                "section": "6.5 Duração da antibioterapia",
+                "section": "Validação clínica B5 (CLINICAL_AUDIT.md §10)",
+                "page": null
+              },
+              "when": {
+                "q_indicacao": "fr"
+              }
+            },
+            {
+              "kind": "duration",
+              "text": "Dúvida se controlo de foco: duração dependente da evolução clínica.",
+              "source": {
+                "section": "Validação clínica B5 (CLINICAL_AUDIT.md §10); 6.5",
                 "page": 7
               },
               "when": {
-                "q_indicacao": [
-                  "fr",
-                  "duvida"
-                ]
-              },
-              "issues": [
-                "B5"
-              ]
+                "q_indicacao": "duvida"
+              }
             }
           ],
           "notes": [
             {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "kind": "warning",
+              "text": "Antibioterapia exclusiva: a decisão deve ter em consideração a taxa aumentada de recorrência de doença, cerca de 23-27% em 1 ano, e internamentos potencialmente mais prolongados, pelo que deverá ser ponderada cuidadosamente. Apesar da idade avançada ser um fator de risco para doença complicada, a antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
               "source": {
-                "section": "6.2.4",
-                "page": 6
+                "section": "6.1 Abordagem terapêutica",
+                "page": 4
+              },
+              "when": {
+                "q_abordagem": "exclusiva"
               }
             },
             {
@@ -534,6 +572,14 @@
               "source": {
                 "section": "6.2 Produtos a colher para estudo microbiológico",
                 "page": 5
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.4",
+                "page": 6
               }
             },
             {
@@ -603,32 +649,39 @@
           ],
           "allergy": [
             {
-              "verbatim": "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg/8h + tigeciclina (100 mg e depois 50 mg /12h)",
+              "verbatim": "Se alergia: ciprofloxacina EV 400mg/8h + tigeciclina EV 100 mg e depois 50 mg /12h",
               "drugs": [
                 {
                   "drug": "Ciprofloxacina",
                   "dose": "400 mg",
-                  "route": null,
+                  "route": "EV",
                   "interval": "8/8h"
                 },
                 {
                   "drug": "Tigeciclina",
                   "dose": "100 mg (dose inicial) e depois 50 mg",
-                  "route": null,
+                  "route": "EV",
                   "interval": "12/12h"
                 }
               ],
               "source": {
-                "section": "Figura 1 — Fluxograma de antibioterapia recomendado na AA",
-                "page": 8,
-                "element": "Caixa 'Fatores de risco para MR? — Sim'"
-              },
-              "issues": [
-                "B3"
-              ]
+                "section": "Figura 1 + Validação clínica B3 (CLINICAL_AUDIT.md §10)",
+                "page": 8
+              }
             }
           ],
           "duration": [
+            {
+              "kind": "duration",
+              "text": "Abordagem terapêutica sem cirurgia: Antibioterapia EV durante 48-72h seguida de 7-10 dias de antibioterapia oral.",
+              "source": {
+                "section": "6.5 Duração da antibioterapia — 1) Abordagem terapêutica sem cirurgia",
+                "page": 6
+              },
+              "when": {
+                "q_abordagem": "exclusiva"
+              }
+            },
             {
               "kind": "duration",
               "text": "Apendicite aguda complicada: 96h após a cirurgia, se controlo de foco adequado.",
@@ -642,29 +695,37 @@
             },
             {
               "kind": "duration",
-              "text": "Duração não definida no protocolo para doença não complicada com FR para doença complicada ou com dúvida sobre controlo de foco (o protocolo refere apenas: 'Apendicite aguda não complicada: sem necessidade, se controlo de foco adequado').",
+              "text": "Fatores de risco para doença complicada: 96h após a cirurgia.",
               "source": {
-                "section": "6.5 Duração da antibioterapia",
+                "section": "Validação clínica B5 (CLINICAL_AUDIT.md §10)",
+                "page": null
+              },
+              "when": {
+                "q_indicacao": "fr"
+              }
+            },
+            {
+              "kind": "duration",
+              "text": "Dúvida se controlo de foco: duração dependente da evolução clínica.",
+              "source": {
+                "section": "Validação clínica B5 (CLINICAL_AUDIT.md §10); 6.5",
                 "page": 7
               },
               "when": {
-                "q_indicacao": [
-                  "fr",
-                  "duvida"
-                ]
-              },
-              "issues": [
-                "B5"
-              ]
+                "q_indicacao": "duvida"
+              }
             }
           ],
           "notes": [
             {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "kind": "warning",
+              "text": "Antibioterapia exclusiva: a decisão deve ter em consideração a taxa aumentada de recorrência de doença, cerca de 23-27% em 1 ano, e internamentos potencialmente mais prolongados, pelo que deverá ser ponderada cuidadosamente. Apesar da idade avançada ser um fator de risco para doença complicada, a antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
               "source": {
-                "section": "6.2.4",
-                "page": 6
+                "section": "6.1 Abordagem terapêutica",
+                "page": 4
+              },
+              "when": {
+                "q_abordagem": "exclusiva"
               }
             },
             {
@@ -673,6 +734,14 @@
               "source": {
                 "section": "6.2 Produtos a colher para estudo microbiológico",
                 "page": 5
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.4",
+                "page": 6
               }
             },
             {
@@ -720,105 +789,6 @@
           ],
           "issues": [
             "m6"
-          ]
-        },
-        "r_exclusiva": {
-          "type": "result",
-          "antibiotherapy": true,
-          "pending": true,
-          "title": "Antibioterapia exclusiva (sem cirurgia)",
-          "firstLine": [],
-          "duration": [
-            {
-              "kind": "duration",
-              "text": "Antibioterapia EV durante 48-72h seguida de 7-10 dias de antibioterapia oral.",
-              "source": {
-                "section": "6.5 Duração da antibioterapia — 1) Abordagem terapêutica sem cirurgia",
-                "page": 6
-              }
-            }
-          ],
-          "notes": [
-            {
-              "kind": "warning",
-              "text": "O protocolo não define um esquema antibiótico específico para a estratégia de antibioterapia exclusiva.",
-              "source": {
-                "section": "6.1; 6.2; 6.5",
-                "page": 4
-              },
-              "issues": [
-                "B4"
-              ]
-            },
-            {
-              "kind": "warning",
-              "text": "A decisão de antibioterapia exclusiva deve ter em consideração a taxa aumentada de recorrência de doença, cerca de 23-27% em 1 ano, e internamentos potencialmente mais prolongados, pelo que deverá ser ponderada cuidadosamente. Apesar da idade avançada ser um fator de risco para doença complicada, a antibioterapia exclusiva poderá ser uma opção se o doente não tiver condições cirúrgicas.",
-              "source": {
-                "section": "6.1 Abordagem terapêutica",
-                "page": 4
-              }
-            },
-            {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
-              "source": {
-                "section": "6.2.4",
-                "page": 6
-              }
-            },
-            {
-              "kind": "microbiology",
-              "text": "Está indicada a colheita de hemoculturas e de líquido intra-peritoneal para exame microbiológico em doentes instáveis clinicamente, em infeções adquiridas em ambiente hospitalar e se existirem fatores de risco para microrganismos multirresistentes. Duas hemoculturas (duas punções em locais diferentes; de cada punção 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose), sempre antes da toma do antimicrobiano. Líquido intra-peritoneal para recipiente estéril e enviar para cultura (solicitar recipientes apropriados para anaeróbios).",
-              "source": {
-                "section": "6.2 Produtos a colher para estudo microbiológico",
-                "page": 5
-              }
-            },
-            {
-              "kind": "deescalation",
-              "text": "Se houver isolamento microbiológico em hemoculturas ou no líquido peritoneal aspirado aquando da cirurgia, a antibioterapia deve ser ajustada ao agente isolado e sempre tendo em conta os princípios de utilização dos antibióticos com menor espectro e toxicidade.",
-              "source": {
-                "section": "6.3 Tratamento antimicrobiano dirigido",
-                "page": 6
-              }
-            },
-            {
-              "kind": "oral",
-              "text": "Perante controlo de foco bem-sucedido e evolução clínica favorável, a transição para antibioterapia oral deve ocorrer o mais precocemente possível, idealmente ajustado ao isolamento. Em doentes sem critérios de sépsis e sem fatores de mau prognóstico e sem isolamento microbiológico pode ser considerado completar o tratamento via oral com cefixime 400mg/dia + metronidazol 500mg 8/8h.",
-              "source": {
-                "section": "6.4 Transição antibioterapia oral",
-                "page": 6
-              }
-            },
-            {
-              "kind": "oral",
-              "text": "Tendo em conta a boa biodisponibilidade deste antibiótico, o metronidazol caso esteja a ser utilizado por via endovenosa, deve assim que possível passar para administração por via oral.",
-              "source": {
-                "section": "6.5 Duração da antibioterapia",
-                "page": 7
-              }
-            },
-            {
-              "kind": "source_control",
-              "text": "No caso de evolução desfavorável, ponderar reavaliação de controlo de foco com recurso a MCDTs dirigidos, devendo a duração de antibioterapia nestes casos ser definida caso a caso. Em determinadas situações, nomeadamente abcesso intra-abdominal em quadros com semanas de evolução, pode apenas estar indicada a drenagem percutânea associada a antibioterapia, devendo esta ser mantida até controlo adequado de foco.",
-              "source": {
-                "section": "6.5 Duração da antibioterapia",
-                "page": 7
-              }
-            }
-          ],
-          "source": [
-            {
-              "section": "6.1; Tabela 4",
-              "page": 4
-            },
-            {
-              "section": "6.5",
-              "page": 6
-            }
-          ],
-          "issues": [
-            "B4"
           ]
         }
       }
@@ -948,7 +918,7 @@
         "q_fr_naocomplicada": {
           "type": "question",
           "prompt": "Fatores de risco para doença complicada?",
-          "help": "Figura 1 apresenta apenas 'Imunosupressão?'. Tabela 2 e texto (6.1) incluem também Sépsis/Choque Séptico.",
+          "help": "Na diverticulite aguda não complicada não se recomenda a utilização de antibioterapia, exceto em doentes imunodeprimidos ou em sépsis (6.1; Tabela 2).",
           "definitionRefs": [
             "imunossupressao",
             "sepsis"
@@ -964,10 +934,7 @@
               "id": "sepsis",
               "label": "Sépsis / Choque séptico",
               "next": "q_mdr",
-              "crumb": "Sépsis/Choque séptico",
-              "issues": [
-                "B6"
-              ]
+              "crumb": "Sépsis/Choque séptico"
             },
             {
               "id": "nenhum",
@@ -977,12 +944,9 @@
             }
           ],
           "source": {
-            "section": "Figura 1; Tabela 2; 6.1",
+            "section": "Figura 1; Tabela 2; 6.1; Validação clínica B6",
             "page": 3
-          },
-          "issues": [
-            "B6"
-          ]
+          }
         },
         "q_mdr": {
           "type": "question",
@@ -1125,14 +1089,11 @@
           "duration": [
             {
               "kind": "duration",
-              "text": "Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo [menos] 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
+              "text": "Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo menos 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
               "source": {
                 "section": "6.5 Duração da antibioterapia",
                 "page": 7
-              },
-              "issues": [
-                "m3"
-              ]
+              }
             },
             {
               "kind": "duration",
@@ -1272,14 +1233,11 @@
           "duration": [
             {
               "kind": "duration",
-              "text": "Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo [menos] 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
+              "text": "Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo menos 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
               "source": {
                 "section": "6.5 Duração da antibioterapia",
                 "page": 7
-              },
-              "issues": [
-                "m3"
-              ]
+              }
             },
             {
               "kind": "duration",
@@ -1419,14 +1377,11 @@
           "duration": [
             {
               "kind": "duration",
-              "text": "Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo [menos] 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
+              "text": "Na generalidade dos doentes com diverticulite aguda, caso seja necessária antibioterapia, recomenda-se uma duração terapêutica de pelo menos 5 a 7 dias, podendo o curso ser completado por via oral sempre que os critérios de transição sejam cumpridos.",
               "source": {
                 "section": "6.5 Duração da antibioterapia",
                 "page": 7
-              },
-              "issues": [
-                "m3"
-              ]
+              }
             },
             {
               "kind": "duration",
@@ -3662,11 +3617,8 @@
         "pancreatite",
         "necrose",
         "WON",
+        "Atlanta",
         "pancreatitis"
-      ],
-      "pending": true,
-      "issues": [
-        "B1"
       ],
       "definitions": {
         "mdr": {
@@ -3704,45 +3656,73 @@
             "section": "Fluxograma",
             "page": 3
           }
+        },
+        "atlanta": {
+          "label": "Gravidade da pancreatite aguda (Atlanta revista)",
+          "items": [
+            "Ligeira (Ø falência de órgão, complicações locais ou sistémicas; resolução na 1ª semana)",
+            "Moderada (falência de órgão <48h, complicações locais ou exacerbação de comorbilidade)",
+            "Grave (falência de órgão sustentada, >48h)"
+          ],
+          "source": {
+            "section": "6. Descrição",
+            "page": 2
+          }
+        },
+        "disfuncao": {
+          "label": "Critério para meropenem na ausência de FR MDROs (6.2.2)",
+          "items": [
+            "Disfunção grave de órgão / instabilidade hemodinâmica atribuíveis à infeção"
+          ],
+          "source": {
+            "section": "6.2.2",
+            "page": 5
+          }
         }
       },
       "allergyQuestion": {
         "prompt": "Alergia a beta-lactâmicos?",
         "source": {
-          "section": "Fluxograma",
+          "section": "Fluxograma; 6.2.3",
           "page": 3
         }
       },
       "intro": [],
-      "start": "q_suspeita",
+      "start": "q_contexto",
       "nodes": {
-        "q_suspeita": {
+        "q_contexto": {
           "type": "question",
-          "prompt": "Suspeita de necrose (peri)pancreática infetada?",
-          "help": "Na ausência de outros achados sugestivos de infeção, não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+          "prompt": "Indicação",
+          "help": "Necrose (peri)pancreática infetada: fluxograma (p. 3). Antibioterapia empírica sem infeção comprovada: secção 6.2, gravidade segundo a classificação de Atlanta revista.",
           "definitionRefs": [
             "necrose_infetada"
           ],
           "options": [
             {
-              "id": "sim",
-              "label": "Sim",
-              "next": "q_mdr",
-              "crumb": "Suspeita de necrose infetada"
+              "id": "necrose",
+              "label": "Suspeita de necrose (peri)pancreática infetada",
+              "next": "q_mdr_nec",
+              "crumb": "Necrose (peri)pancreática infetada"
+            },
+            {
+              "id": "empirica",
+              "label": "Infeção associada a pancreatite — antibioterapia empírica (infeção não comprovada)",
+              "next": "q_atlanta",
+              "crumb": "Antibioterapia empírica"
             },
             {
               "id": "nao",
-              "label": "Não",
+              "label": "Sem suspeita de infeção",
               "next": "r_sem_atb",
-              "crumb": "Sem suspeita de necrose infetada"
+              "crumb": "Sem suspeita de infeção"
             }
           ],
           "source": {
-            "section": "Fluxograma",
+            "section": "Fluxograma; 6.1; 6.2; Validação clínica B1",
             "page": 3
           }
         },
-        "q_mdr": {
+        "q_mdr_nec": {
           "type": "question",
           "prompt": "Fatores de risco para agentes multirresistentes MDR?",
           "definitionRefs": [
@@ -3752,13 +3732,13 @@
             {
               "id": "sim",
               "label": "Sim",
-              "next": "q_gravidade",
+              "next": "q_gravidade_nec",
               "crumb": "FR MDR"
             },
             {
               "id": "nao",
               "label": "Não",
-              "next": "r_ceftriaxone",
+              "next": "r_nec_ceftriaxone",
               "crumb": "Sem FR MDR"
             }
           ],
@@ -3766,12 +3746,12 @@
             "section": "Fluxograma",
             "page": 3
           },
+          "answerKey": "q_mdr",
           "issues": [
-            "B1",
             "m10"
           ]
         },
-        "q_gravidade": {
+        "q_gravidade_nec": {
           "type": "question",
           "prompt": "Gravidade clínica (sepsis, instabilidade hemodinâmica)?",
           "definitionRefs": [
@@ -3781,23 +3761,129 @@
             {
               "id": "sim",
               "label": "Sim",
-              "next": "r_meropenem",
+              "next": "r_nec_meropenem",
               "crumb": "Gravidade clínica"
             },
             {
               "id": "nao",
               "label": "Não",
-              "next": "r_piptazo",
+              "next": "r_nec_piptazo",
               "crumb": "Sem gravidade clínica"
             }
           ],
           "source": {
             "section": "Fluxograma",
             "page": 3
+          }
+        },
+        "q_atlanta": {
+          "type": "question",
+          "prompt": "Gravidade da pancreatite aguda (Atlanta revista)",
+          "definitionRefs": [
+            "atlanta"
+          ],
+          "options": [
+            {
+              "id": "ligeira",
+              "label": "Ligeira",
+              "next": "q_mdr_lig",
+              "crumb": "Pancreatite ligeira"
+            },
+            {
+              "id": "moderada",
+              "label": "Moderada",
+              "next": "q_mdr_mg",
+              "crumb": "Pancreatite moderada"
+            },
+            {
+              "id": "grave",
+              "label": "Grave",
+              "next": "q_mdr_mg",
+              "crumb": "Pancreatite grave"
+            }
+          ],
+          "source": {
+            "section": "6. Descrição; 6.2.1; 6.2.2; Validação clínica B1",
+            "page": 5
+          }
+        },
+        "q_mdr_lig": {
+          "type": "question",
+          "prompt": "Fatores de risco para MDROs?",
+          "definitionRefs": [
+            "mdr"
+          ],
+          "help": "Na pancreatite sem critérios de gravidade o esquema de 6.2.1 não depende dos fatores de risco para MDROs; esta resposta define apenas o intervalo da ciprofloxacina em caso de alergia (6.2.3).",
+          "options": [
+            {
+              "id": "sim",
+              "label": "Sim",
+              "next": "r_emp_ceftriaxone",
+              "crumb": "FR MDROs"
+            },
+            {
+              "id": "nao",
+              "label": "Não",
+              "next": "r_emp_ceftriaxone",
+              "crumb": "Sem FR MDROs"
+            }
+          ],
+          "source": {
+            "section": "6.2.1; 6.2.3",
+            "page": 5
           },
-          "issues": [
-            "B1"
-          ]
+          "answerKey": "q_mdr"
+        },
+        "q_mdr_mg": {
+          "type": "question",
+          "prompt": "Fatores de risco para MDROs?",
+          "definitionRefs": [
+            "mdr"
+          ],
+          "options": [
+            {
+              "id": "sim",
+              "label": "Sim",
+              "next": "r_emp_meropenem",
+              "crumb": "FR MDROs"
+            },
+            {
+              "id": "nao",
+              "label": "Não",
+              "next": "q_disfuncao",
+              "crumb": "Sem FR MDROs"
+            }
+          ],
+          "source": {
+            "section": "6.2.2",
+            "page": 5
+          },
+          "answerKey": "q_mdr"
+        },
+        "q_disfuncao": {
+          "type": "question",
+          "prompt": "Disfunção grave de órgão / instabilidade hemodinâmica atribuíveis à infeção?",
+          "definitionRefs": [
+            "disfuncao"
+          ],
+          "options": [
+            {
+              "id": "sim",
+              "label": "Sim",
+              "next": "r_emp_meropenem",
+              "crumb": "Disfunção grave / instabilidade"
+            },
+            {
+              "id": "nao",
+              "label": "Não",
+              "next": "r_emp_piptazo",
+              "crumb": "Sem disfunção grave"
+            }
+          ],
+          "source": {
+            "section": "6.2.2",
+            "page": 5
+          }
         },
         "r_sem_atb": {
           "type": "result",
@@ -3811,6 +3897,14 @@
                 "section": "6.1",
                 "page": 4
               }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
             }
           ],
           "source": [
@@ -3820,11 +3914,10 @@
             }
           ]
         },
-        "r_ceftriaxone": {
+        "r_nec_ceftriaxone": {
           "type": "result",
           "antibiotherapy": true,
-          "pending": true,
-          "title": "Pancreatite — necrose infetada (ramo 'sem FR MDR' do fluxograma)",
+          "title": "Necrose (peri)pancreática infetada — sem FR MDR",
           "firstLine": [
             {
               "verbatim": "Ceftriaxone 2g id + metronidazol 500mg 8/8h EV",
@@ -3843,7 +3936,7 @@
                 }
               ],
               "source": {
-                "section": "Fluxograma; 6.2.1",
+                "section": "Fluxograma",
                 "page": 3
               }
             }
@@ -3866,7 +3959,7 @@
                 }
               ],
               "source": {
-                "section": "Fluxograma (p. 3); 6.2.3",
+                "section": "Fluxograma (p. 3)",
                 "page": 3
               }
             }
@@ -3883,11 +3976,11 @@
           ],
           "notes": [
             {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "kind": "warning",
+              "text": "Caso a deterioração clínica esteja associada a gravidade significativa, pode ser considerado o início de antibioterapia mesmo na ausência de gás no interior da loca de necrose, com a possibilidade de suspensão da mesma caso o diagnóstico de infeção não se confirme.",
               "source": {
-                "section": "6.2.3",
-                "page": 5
+                "section": "6.1 Abordagem terapêutica",
+                "page": 3
               }
             },
             {
@@ -3904,6 +3997,22 @@
               "source": {
                 "section": "6.1",
                 "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
               }
             },
             {
@@ -3946,21 +4055,13 @@
             {
               "section": "Fluxograma",
               "page": 3
-            },
-            {
-              "section": "6.2.1",
-              "page": 5
             }
-          ],
-          "issues": [
-            "B1"
           ]
         },
-        "r_piptazo": {
+        "r_nec_piptazo": {
           "type": "result",
           "antibiotherapy": true,
-          "pending": true,
-          "title": "Pancreatite — necrose infetada (ramo 'FR MDR, sem gravidade' do fluxograma)",
+          "title": "Necrose (peri)pancreática infetada — FR MDR, sem gravidade clínica",
           "firstLine": [
             {
               "verbatim": "Piperacilina/Tazobactam 4.5g 6/6h EV",
@@ -3973,7 +4074,7 @@
                 }
               ],
               "source": {
-                "section": "Fluxograma; 6.2.2",
+                "section": "Fluxograma",
                 "page": 3
               }
             }
@@ -3996,7 +4097,7 @@
                 }
               ],
               "source": {
-                "section": "Fluxograma (p. 3); 6.2.3",
+                "section": "Fluxograma (p. 3)",
                 "page": 3
               }
             }
@@ -4013,11 +4114,11 @@
           ],
           "notes": [
             {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "kind": "warning",
+              "text": "Caso a deterioração clínica esteja associada a gravidade significativa, pode ser considerado o início de antibioterapia mesmo na ausência de gás no interior da loca de necrose, com a possibilidade de suspensão da mesma caso o diagnóstico de infeção não se confirme.",
               "source": {
-                "section": "6.2.3",
-                "page": 5
+                "section": "6.1 Abordagem terapêutica",
+                "page": 3
               }
             },
             {
@@ -4034,6 +4135,22 @@
               "source": {
                 "section": "6.1",
                 "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
               }
             },
             {
@@ -4076,21 +4193,13 @@
             {
               "section": "Fluxograma",
               "page": 3
-            },
-            {
-              "section": "6.2.2",
-              "page": 5
             }
-          ],
-          "issues": [
-            "B1"
           ]
         },
-        "r_meropenem": {
+        "r_nec_meropenem": {
           "type": "result",
           "antibiotherapy": true,
-          "pending": true,
-          "title": "Pancreatite — necrose infetada (ramo 'FR MDR, com gravidade' do fluxograma)",
+          "title": "Necrose (peri)pancreática infetada — FR MDR, com gravidade clínica",
           "firstLine": [
             {
               "verbatim": "Se gravidade clínica (sepsis, instabilidade hemodinâmica): Meropenem 1g 8/8h EV",
@@ -4103,7 +4212,7 @@
                 }
               ],
               "source": {
-                "section": "Fluxograma; 6.2.2",
+                "section": "Fluxograma",
                 "page": 3
               }
             }
@@ -4126,7 +4235,7 @@
                 }
               ],
               "source": {
-                "section": "Fluxograma (p. 3); 6.2.3",
+                "section": "Fluxograma (p. 3)",
                 "page": 3
               }
             }
@@ -4143,11 +4252,11 @@
           ],
           "notes": [
             {
-              "kind": "renal",
-              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "kind": "warning",
+              "text": "Caso a deterioração clínica esteja associada a gravidade significativa, pode ser considerado o início de antibioterapia mesmo na ausência de gás no interior da loca de necrose, com a possibilidade de suspensão da mesma caso o diagnóstico de infeção não se confirme.",
               "source": {
-                "section": "6.2.3",
-                "page": 5
+                "section": "6.1 Abordagem terapêutica",
+                "page": 3
               }
             },
             {
@@ -4164,6 +4273,22 @@
               "source": {
                 "section": "6.1",
                 "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
               }
             },
             {
@@ -4206,14 +4331,490 @@
             {
               "section": "Fluxograma",
               "page": 3
+            }
+          ]
+        },
+        "r_emp_ceftriaxone": {
+          "type": "result",
+          "antibiotherapy": true,
+          "title": "Antibioterapia empírica — pancreatite sem critérios de gravidade",
+          "firstLine": [
+            {
+              "verbatim": "Ceftriaxone 2g EV id + metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ceftriaxone",
+                  "dose": "2 g",
+                  "route": "EV",
+                  "interval": "id"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "8/8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.1",
+                "page": 5
+              }
+            }
+          ],
+          "allergy": [
+            {
+              "verbatim": "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": "EV",
+                  "interval": "q12h"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "label": "Sem fatores de risco para MDROs",
+              "when": {
+                "q_mdr": "nao"
+              }
             },
+            {
+              "verbatim": "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "label": "Com fatores de risco para MDROs",
+              "when": {
+                "q_mdr": "sim"
+              }
+            }
+          ],
+          "duration": [
+            {
+              "kind": "duration",
+              "text": "A duração da antibioterapia na pancreatite deve ser individualizada. A suspensão de antibioterapia pode ser ponderada após melhoria clínica e imagiológica sustentadas. A extensão da infeção e a existência de uma abordagem para controlo do foco devem ser tidos em conta na decisão da duração do tratamento.",
+              "source": {
+                "section": "6.3 Duração de antibioterapia e seguimento",
+                "page": 6
+              }
+            }
+          ],
+          "notes": [
+            {
+              "kind": "microbiology",
+              "text": "Hemoculturas (se o doente tiver febre): duas amostras (duas punções em locais diferentes; de cada punção 20mL: 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose); se possível antes da primeira toma do antimicrobiano. Líquido de drenagem (em doentes em que seja considerada drenagem percutânea ou transgástrica): aerobiose em frasco estéril; anaerobiose em recipiente apropriado a solicitar ao laboratório.",
+              "source": {
+                "section": "1. Produtos a colher para estudo microbiológico",
+                "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "A punção aspirativa não está indicada por rotina e não deve ser um critério para iniciar ou não antibioterapia (uma punção aspirativa negativa não exclui indicação para antibiótico).",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              }
+            },
+            {
+              "kind": "warning",
+              "text": "O tratamento antifúngico não deve ser utilizado por rotina na necrose pancreática infetada. Pode ser considerada a associação de antifúngico em doentes com disfunção grave de órgão ou instabilidade hemodinâmica atribuíveis à infeção, a suspender após estabilidade clínica e caso não exista evidência de infeção fúngica.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "issues": [
+                "m12"
+              ]
+            },
+            {
+              "kind": "deescalation",
+              "text": "Se houver isolamento microbiológico em hemoculturas ou no líquido de drenagem aquando da cirurgia, a antibioterapia deve ser ajustada ao agente isolado e sempre tendo em conta os princípios de utilização dos antibióticos com menor espectro e toxicidade.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              }
+            },
+            {
+              "kind": "oral",
+              "text": "É possível a passagem a terapia oral após melhoria clínica, analítica e imagiológica sob terapia endovenosa, via oral patente e uma alternativa antibiótica oral satisfatória em termos farmacocinéticos e com probabilidade de reter atividade contra os agentes presumidos ou identificados. O metronidazol EV deve assim que possível passar para via oral. Em situação em que não exista isolamento de agente, e na ausência de gravidade ou fatores de risco para agentes multirresistentes, pode ser considerada caso a caso a transição para antibioterapia oral com Cefixima 400mg id + Metronidazol 500mg q8h.",
+              "source": {
+                "section": "6.3 Duração de antibioterapia e seguimento",
+                "page": 6
+              }
+            },
+            {
+              "kind": "source_control",
+              "text": "Em pacientes clinicamente estáveis sob antibioterapia, adiar a necrosectomia até 30 dias após a admissão hospitalar inicial está associado a uma mortalidade reduzida. Se não houver resposta à antibioterapia num curto espaço de tempo ou se a situação clínica piorar, a necrosectomia/desbridamento deve ser realizada. Após os 30 dias, no caso de uma coleção necrótica com uma parede bem definida e material liquefeito no interior, a drenagem pode ser considerada, seja por via endoscópica (preferencial) ou radiológica. Caso nenhum destes métodos seja possível ou eficaz, deve ser considerada uma abordagem cirúrgica.",
+              "source": {
+                "section": "6.4 Abordagem cirúrgica",
+                "page": 6
+              }
+            }
+          ],
+          "source": [
+            {
+              "section": "6.2.1",
+              "page": 5
+            }
+          ]
+        },
+        "r_emp_piptazo": {
+          "type": "result",
+          "antibiotherapy": true,
+          "title": "Antibioterapia empírica — pancreatite moderada a grave, sem FR MDROs",
+          "firstLine": [
+            {
+              "verbatim": "Piperacilina/tazobactam 4.5g EV q6h (na ausência de fatores de risco para MDROs)",
+              "drugs": [
+                {
+                  "drug": "Piperacilina/tazobactam",
+                  "dose": "4,5 g",
+                  "route": "EV",
+                  "interval": "6/6h"
+                }
+              ],
+              "source": {
+                "section": "6.2.2",
+                "page": 5
+              }
+            }
+          ],
+          "allergy": [
+            {
+              "verbatim": "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": "EV",
+                  "interval": "q12h"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "label": "Sem fatores de risco para MDROs",
+              "when": {
+                "q_mdr": "nao"
+              }
+            },
+            {
+              "verbatim": "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "label": "Com fatores de risco para MDROs",
+              "when": {
+                "q_mdr": "sim"
+              }
+            }
+          ],
+          "duration": [
+            {
+              "kind": "duration",
+              "text": "A duração da antibioterapia na pancreatite deve ser individualizada. A suspensão de antibioterapia pode ser ponderada após melhoria clínica e imagiológica sustentadas. A extensão da infeção e a existência de uma abordagem para controlo do foco devem ser tidos em conta na decisão da duração do tratamento.",
+              "source": {
+                "section": "6.3 Duração de antibioterapia e seguimento",
+                "page": 6
+              }
+            }
+          ],
+          "notes": [
+            {
+              "kind": "microbiology",
+              "text": "Hemoculturas (se o doente tiver febre): duas amostras (duas punções em locais diferentes; de cada punção 20mL: 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose); se possível antes da primeira toma do antimicrobiano. Líquido de drenagem (em doentes em que seja considerada drenagem percutânea ou transgástrica): aerobiose em frasco estéril; anaerobiose em recipiente apropriado a solicitar ao laboratório.",
+              "source": {
+                "section": "1. Produtos a colher para estudo microbiológico",
+                "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "A punção aspirativa não está indicada por rotina e não deve ser um critério para iniciar ou não antibioterapia (uma punção aspirativa negativa não exclui indicação para antibiótico).",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              }
+            },
+            {
+              "kind": "warning",
+              "text": "O tratamento antifúngico não deve ser utilizado por rotina na necrose pancreática infetada. Pode ser considerada a associação de antifúngico em doentes com disfunção grave de órgão ou instabilidade hemodinâmica atribuíveis à infeção, a suspender após estabilidade clínica e caso não exista evidência de infeção fúngica.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "issues": [
+                "m12"
+              ]
+            },
+            {
+              "kind": "deescalation",
+              "text": "Se houver isolamento microbiológico em hemoculturas ou no líquido de drenagem aquando da cirurgia, a antibioterapia deve ser ajustada ao agente isolado e sempre tendo em conta os princípios de utilização dos antibióticos com menor espectro e toxicidade.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              }
+            },
+            {
+              "kind": "oral",
+              "text": "É possível a passagem a terapia oral após melhoria clínica, analítica e imagiológica sob terapia endovenosa, via oral patente e uma alternativa antibiótica oral satisfatória em termos farmacocinéticos e com probabilidade de reter atividade contra os agentes presumidos ou identificados. O metronidazol EV deve assim que possível passar para via oral. Em situação em que não exista isolamento de agente, e na ausência de gravidade ou fatores de risco para agentes multirresistentes, pode ser considerada caso a caso a transição para antibioterapia oral com Cefixima 400mg id + Metronidazol 500mg q8h.",
+              "source": {
+                "section": "6.3 Duração de antibioterapia e seguimento",
+                "page": 6
+              }
+            },
+            {
+              "kind": "source_control",
+              "text": "Em pacientes clinicamente estáveis sob antibioterapia, adiar a necrosectomia até 30 dias após a admissão hospitalar inicial está associado a uma mortalidade reduzida. Se não houver resposta à antibioterapia num curto espaço de tempo ou se a situação clínica piorar, a necrosectomia/desbridamento deve ser realizada. Após os 30 dias, no caso de uma coleção necrótica com uma parede bem definida e material liquefeito no interior, a drenagem pode ser considerada, seja por via endoscópica (preferencial) ou radiológica. Caso nenhum destes métodos seja possível ou eficaz, deve ser considerada uma abordagem cirúrgica.",
+              "source": {
+                "section": "6.4 Abordagem cirúrgica",
+                "page": 6
+              }
+            }
+          ],
+          "source": [
             {
               "section": "6.2.2",
               "page": 5
             }
+          ]
+        },
+        "r_emp_meropenem": {
+          "type": "result",
+          "antibiotherapy": true,
+          "title": "Antibioterapia empírica — pancreatite moderada a grave, com FR MDROs ou disfunção grave de órgão",
+          "firstLine": [
+            {
+              "verbatim": "Meropenem 1g EV q8h (em doentes com fatores de risco de MDROs ou disfunção grave de órgão / instabilidade hemodinâmica atribuíveis à infeção)",
+              "drugs": [
+                {
+                  "drug": "Meropenem",
+                  "dose": "1 g",
+                  "route": "EV",
+                  "interval": "8/8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.2",
+                "page": 5
+              }
+            }
           ],
-          "issues": [
-            "B1"
+          "allergy": [
+            {
+              "verbatim": "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": "EV",
+                  "interval": "q12h"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "label": "Sem fatores de risco para MDROs",
+              "when": {
+                "q_mdr": "nao"
+              }
+            },
+            {
+              "verbatim": "Ciprofloxacina 400mg EV q12h (se ausência de fatores de risco para MDROs) ou q8h (em doentes com fatores de risco para MDROs) + Metronidazol 500mg EV q8h",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                },
+                {
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
+                  "route": "EV",
+                  "interval": "q8h"
+                }
+              ],
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "label": "Com fatores de risco para MDROs",
+              "when": {
+                "q_mdr": "sim"
+              }
+            }
+          ],
+          "duration": [
+            {
+              "kind": "duration",
+              "text": "A duração da antibioterapia na pancreatite deve ser individualizada. A suspensão de antibioterapia pode ser ponderada após melhoria clínica e imagiológica sustentadas. A extensão da infeção e a existência de uma abordagem para controlo do foco devem ser tidos em conta na decisão da duração do tratamento.",
+              "source": {
+                "section": "6.3 Duração de antibioterapia e seguimento",
+                "page": 6
+              }
+            }
+          ],
+          "notes": [
+            {
+              "kind": "microbiology",
+              "text": "Hemoculturas (se o doente tiver febre): duas amostras (duas punções em locais diferentes; de cada punção 20mL: 10 mL para frasco de aerobiose e 10 mL para frasco de anaerobiose); se possível antes da primeira toma do antimicrobiano. Líquido de drenagem (em doentes em que seja considerada drenagem percutânea ou transgástrica): aerobiose em frasco estéril; anaerobiose em recipiente apropriado a solicitar ao laboratório.",
+              "source": {
+                "section": "1. Produtos a colher para estudo microbiológico",
+                "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "A punção aspirativa não está indicada por rotina e não deve ser um critério para iniciar ou não antibioterapia (uma punção aspirativa negativa não exclui indicação para antibiótico).",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Procalcitonina: em doentes onde existe dúvida sobre a indicação para antibioterapia, e na ausência de deterioração clínica com disfunção multiorgânica, um valor inferior a 1,0 ng/mL deve levar a que não seja iniciada antibioterapia ou à sua suspensão. Não está recomendado o início de antibioterapia baseada na procalcitonina isoladamente.",
+              "source": {
+                "section": "6.1",
+                "page": 4
+              }
+            },
+            {
+              "kind": "renal",
+              "text": "As doses de antibioterapia devem ser ajustadas à função renal.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              }
+            },
+            {
+              "kind": "warning",
+              "text": "O tratamento antifúngico não deve ser utilizado por rotina na necrose pancreática infetada. Pode ser considerada a associação de antifúngico em doentes com disfunção grave de órgão ou instabilidade hemodinâmica atribuíveis à infeção, a suspender após estabilidade clínica e caso não exista evidência de infeção fúngica.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              },
+              "issues": [
+                "m12"
+              ]
+            },
+            {
+              "kind": "deescalation",
+              "text": "Se houver isolamento microbiológico em hemoculturas ou no líquido de drenagem aquando da cirurgia, a antibioterapia deve ser ajustada ao agente isolado e sempre tendo em conta os princípios de utilização dos antibióticos com menor espectro e toxicidade.",
+              "source": {
+                "section": "6.2.3",
+                "page": 5
+              }
+            },
+            {
+              "kind": "oral",
+              "text": "É possível a passagem a terapia oral após melhoria clínica, analítica e imagiológica sob terapia endovenosa, via oral patente e uma alternativa antibiótica oral satisfatória em termos farmacocinéticos e com probabilidade de reter atividade contra os agentes presumidos ou identificados. O metronidazol EV deve assim que possível passar para via oral. Em situação em que não exista isolamento de agente, e na ausência de gravidade ou fatores de risco para agentes multirresistentes, pode ser considerada caso a caso a transição para antibioterapia oral com Cefixima 400mg id + Metronidazol 500mg q8h.",
+              "source": {
+                "section": "6.3 Duração de antibioterapia e seguimento",
+                "page": 6
+              }
+            },
+            {
+              "kind": "source_control",
+              "text": "Em pacientes clinicamente estáveis sob antibioterapia, adiar a necrosectomia até 30 dias após a admissão hospitalar inicial está associado a uma mortalidade reduzida. Se não houver resposta à antibioterapia num curto espaço de tempo ou se a situação clínica piorar, a necrosectomia/desbridamento deve ser realizada. Após os 30 dias, no caso de uma coleção necrótica com uma parede bem definida e material liquefeito no interior, a drenagem pode ser considerada, seja por via endoscópica (preferencial) ou radiológica. Caso nenhum destes métodos seja possível ou eficaz, deve ser considerada uma abordagem cirúrgica.",
+              "source": {
+                "section": "6.4 Abordagem cirúrgica",
+                "page": 6
+              }
+            }
+          ],
+          "source": [
+            {
+              "section": "6.2.2",
+              "page": 5
+            }
           ]
         }
       }
@@ -4235,13 +4836,9 @@
         "peritonite",
         "perforated ulcer"
       ],
-      "pending": true,
-      "issues": [
-        "B2"
-      ],
       "definitions": {
         "mdr": {
-          "label": "Fatores de risco para infeções por MDROs",
+          "label": "Fatores de risco para infeções por agentes multirresistentes",
           "items": [
             "Colonização conhecida por agentes multirresistentes no último ano;",
             "Exposição a antibioterapia nos últimos 3 meses;",
@@ -4249,7 +4846,17 @@
             "Doente institucionalizado ou internado nos últimos 3 meses."
           ],
           "source": {
-            "section": "6.3; Figura 1",
+            "section": "6.3",
+            "page": 3
+          }
+        },
+        "sepsis": {
+          "label": "Sépsis",
+          "items": [
+            "Infeção associada a disfunção orgânica potencialmente ameaçadora de vida (Surviving Sepsis Campaign 2023)"
+          ],
+          "source": {
+            "section": "6.2 nota 1",
             "page": 3
           }
         },
@@ -4262,65 +4869,24 @@
             "Comorbilidades significativas: diabetes mellitus com mau controlo metabólico, cirrose hepática, DRC em hemodiálises, neoplasia ativa, DPOC avançada"
           ],
           "source": {
-            "section": "6.3",
+            "section": "6.3; nota 2",
             "page": 4
-          },
-          "issues": [
-            "m9"
-          ]
-        },
-        "sepsis": {
-          "label": "Sépsis",
-          "items": [
-            "Infeção associada a disfunção orgânica potencialmente ameaçadora de vida (Surviving Sepsis Campaign 2023)"
-          ],
-          "source": {
-            "section": "6.2 nota 1",
-            "page": 3
           }
         }
       },
       "allergyQuestion": {
-        "prompt": "Alergia com indicação para evicção de β-lactâmicos?",
+        "prompt": "Alergia com indicação para evitar beta-lactâmicos?",
         "source": {
-          "section": "Figura 1",
-          "page": 6
+          "section": "6.3",
+          "page": 4
         }
       },
       "intro": [],
-      "start": "q_mdr",
+      "start": "q_gravidade",
       "nodes": {
-        "q_mdr": {
-          "type": "question",
-          "prompt": "Fatores de risco para MDROs?",
-          "definitionRefs": [
-            "mdr"
-          ],
-          "options": [
-            {
-              "id": "sim",
-              "label": "Sim",
-              "next": "q_gravidade",
-              "crumb": "FR MDROs"
-            },
-            {
-              "id": "nao",
-              "label": "Não",
-              "next": "r_ceftriaxone",
-              "crumb": "Sem FR MDROs"
-            }
-          ],
-          "source": {
-            "section": "Figura 1",
-            "page": 6
-          },
-          "issues": [
-            "B2"
-          ]
-        },
         "q_gravidade": {
           "type": "question",
-          "prompt": "Gravidade ou fatores de mau prognóstico?",
+          "prompt": "Critérios de sépsis ou fatores de mau prognóstico?",
           "definitionRefs": [
             "sepsis",
             "mau_prognostico"
@@ -4329,38 +4895,86 @@
             {
               "id": "sim",
               "label": "Sim",
-              "next": "r_meropenem",
-              "crumb": "Gravidade / mau prognóstico"
+              "next": "q_mdr_grave",
+              "crumb": "Sépsis / mau prognóstico"
             },
             {
               "id": "nao",
               "label": "Não",
-              "next": "r_piptazo",
-              "crumb": "Sem gravidade nem mau prognóstico"
+              "next": "q_mdr_leve",
+              "crumb": "Sem sépsis nem mau prognóstico"
             }
           ],
           "source": {
-            "section": "Figura 1",
-            "page": 6
+            "section": "6.3; Validação clínica B2",
+            "page": 4
+          }
+        },
+        "q_mdr_leve": {
+          "type": "question",
+          "prompt": "Fatores de risco para microrganismos multirresistentes?",
+          "definitionRefs": [
+            "mdr"
+          ],
+          "options": [
+            {
+              "id": "sim",
+              "label": "Sim",
+              "next": "r_piptazo_leve",
+              "crumb": "FR MDR"
+            },
+            {
+              "id": "nao",
+              "label": "Não",
+              "next": "r_ceftriaxone",
+              "crumb": "Sem FR MDR"
+            }
+          ],
+          "source": {
+            "section": "6.3",
+            "page": 4
           },
-          "issues": [
-            "B2"
-          ]
+          "answerKey": "q_mdr"
+        },
+        "q_mdr_grave": {
+          "type": "question",
+          "prompt": "Fatores de risco para microrganismos multirresistentes?",
+          "definitionRefs": [
+            "mdr"
+          ],
+          "options": [
+            {
+              "id": "sim",
+              "label": "Sim",
+              "next": "r_meropenem",
+              "crumb": "FR MDR"
+            },
+            {
+              "id": "nao",
+              "label": "Não",
+              "next": "r_piptazo_grave",
+              "crumb": "Sem FR MDR"
+            }
+          ],
+          "source": {
+            "section": "6.3",
+            "page": 4
+          },
+          "answerKey": "q_mdr"
         },
         "r_ceftriaxone": {
           "type": "result",
           "antibiotherapy": true,
-          "pending": true,
-          "title": "Úlcera perfurada — sem FR MDROs (ramo do fluxograma)",
+          "title": "Úlcera perfurada — sem sépsis, sem fatores de mau prognóstico, sem FR MDR",
           "firstLine": [
             {
-              "verbatim": "Ceftriaxone 2g /24h + metronidazol 500 mg /8h",
+              "verbatim": "Ceftriaxone 2g/dia + metronidazol 500 mg 8/8h",
               "drugs": [
                 {
                   "drug": "Ceftriaxone",
-                  "dose": "2 g",
+                  "dose": "2 g/dia",
                   "route": null,
-                  "interval": "24/24h"
+                  "interval": null
                 },
                 {
                   "drug": "Metronidazol",
@@ -4370,8 +4984,8 @@
                 }
               ],
               "source": {
-                "section": "Figura 1; 6.3",
-                "page": 6
+                "section": "6.3",
+                "page": 4
               },
               "issues": [
                 "B9"
@@ -4380,7 +4994,7 @@
           ],
           "allergy": [
             {
-              "verbatim": "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg /8h + metronidazol 500 mg /8h",
+              "verbatim": "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + metronidazol 500 mg 8/8h.",
               "drugs": [
                 {
                   "drug": "Ciprofloxacina",
@@ -4396,8 +5010,8 @@
                 }
               ],
               "source": {
-                "section": "Figura 1",
-                "page": 6
+                "section": "6.3 — Sem critérios de sépsis, sem fatores de mau prognóstico",
+                "page": 4
               },
               "issues": [
                 "B9"
@@ -4416,6 +5030,14 @@
           ],
           "notes": [
             {
+              "kind": "microbiology",
+              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados, mesmo em doentes com agravamento clínico.",
+              "source": {
+                "section": "6.2 Produtos a colher para estudo microbiológico",
+                "page": 3
+              }
+            },
+            {
               "kind": "info",
               "text": "Recomenda-se antibioterapia empírica em todos os doentes com úlceras pépticas perfuradas. A perfuração de úlcera péptica deve ser tratada como uma peritonite secundária adquirida na comunidade.",
               "source": {
@@ -4429,14 +5051,6 @@
               "source": {
                 "section": "Figura 1",
                 "page": 6
-              }
-            },
-            {
-              "kind": "microbiology",
-              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados.",
-              "source": {
-                "section": "6.2 Produtos a colher para estudo microbiológico",
-                "page": 3
               }
             },
             {
@@ -4458,26 +5072,18 @@
           ],
           "source": [
             {
-              "section": "Figura 1",
-              "page": 6
-            },
-            {
               "section": "6.3",
               "page": 4
             }
-          ],
-          "issues": [
-            "B2"
           ]
         },
-        "r_piptazo": {
+        "r_piptazo_leve": {
           "type": "result",
           "antibiotherapy": true,
-          "pending": true,
-          "title": "Úlcera perfurada — FR MDROs, sem gravidade nem fatores de mau prognóstico (ramo do fluxograma)",
+          "title": "Úlcera perfurada — sem sépsis, sem fatores de mau prognóstico, com FR MDR",
           "firstLine": [
             {
-              "verbatim": "Piperacilina-tazobactam 4,5g /6h",
+              "verbatim": "piperacilina-tazobactam 4,5g 6/6h ± cobertura de Enterococcus spp ± cobertura de Candida spp",
               "drugs": [
                 {
                   "drug": "Piperacilina/tazobactam",
@@ -4487,8 +5093,8 @@
                 }
               ],
               "source": {
-                "section": "Figura 1; 6.3",
-                "page": 6
+                "section": "6.3",
+                "page": 4
               },
               "issues": [
                 "B9"
@@ -4521,13 +5127,10 @@
                 }
               ],
               "source": {
-                "section": "6.3 (nota *); Figura 1",
+                "section": "6.3 (nota *)",
                 "page": 4
               },
-              "label": "± cobertura de Enterococcus spp*",
-              "issues": [
-                "m9"
-              ]
+              "label": "± cobertura de Enterococcus spp*"
             },
             {
               "verbatim": "**Considerar adicionar cobertura para Candida spp nos seguintes casos: doente crítico, doente sob alimentação parentérica, uso de terapêutica de substituição renal contínua, colonização multifocal por Candida spp, deiscência de sutura gástrica ou duodenal. O antífúngico de eleição é a caspofungina 70mg dose carga + 50mg/24h.",
@@ -4540,7 +5143,7 @@
                 }
               ],
               "source": {
-                "section": "6.3 (nota **); Figura 1",
+                "section": "6.3 (nota **)",
                 "page": 4
               },
               "label": "± cobertura de Candida spp**"
@@ -4548,7 +5151,7 @@
           ],
           "allergy": [
             {
-              "verbatim": "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg/8h + tigeciclina (100 mg e depois 50 mg /12h)",
+              "verbatim": "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + metronidazol 500 mg 8/8h.",
               "drugs": [
                 {
                   "drug": "Ciprofloxacina",
@@ -4557,18 +5160,17 @@
                   "interval": "8/8h"
                 },
                 {
-                  "drug": "Tigeciclina",
-                  "dose": "100 mg (dose inicial) e depois 50 mg",
+                  "drug": "Metronidazol",
+                  "dose": "500 mg",
                   "route": null,
-                  "interval": "12/12h"
+                  "interval": "8/8h"
                 }
               ],
               "source": {
-                "section": "Figura 1; 6.3",
-                "page": 6
+                "section": "6.3 — Sem critérios de sépsis, sem fatores de mau prognóstico",
+                "page": 4
               },
               "issues": [
-                "B2",
                 "B9"
               ]
             }
@@ -4593,6 +5195,14 @@
           ],
           "notes": [
             {
+              "kind": "microbiology",
+              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados, mesmo em doentes com agravamento clínico.",
+              "source": {
+                "section": "6.2 Produtos a colher para estudo microbiológico",
+                "page": 3
+              }
+            },
+            {
               "kind": "info",
               "text": "Recomenda-se antibioterapia empírica em todos os doentes com úlceras pépticas perfuradas. A perfuração de úlcera péptica deve ser tratada como uma peritonite secundária adquirida na comunidade.",
               "source": {
@@ -4606,14 +5216,6 @@
               "source": {
                 "section": "Figura 1",
                 "page": 6
-              }
-            },
-            {
-              "kind": "microbiology",
-              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados.",
-              "source": {
-                "section": "6.2 Produtos a colher para estudo microbiológico",
-                "page": 3
               }
             },
             {
@@ -4635,26 +5237,183 @@
           ],
           "source": [
             {
-              "section": "Figura 1",
-              "page": 6
+              "section": "6.3",
+              "page": 4
+            }
+          ]
+        },
+        "r_piptazo_grave": {
+          "type": "result",
+          "antibiotherapy": true,
+          "title": "Úlcera perfurada — com sépsis ou fatores de mau prognóstico, sem FR MDR",
+          "firstLine": [
+            {
+              "verbatim": "piperacilina-tazobactam 4,5g 6/6h ± cobertura de Enterococcus spp ± cobertura de Candida spp",
+              "drugs": [
+                {
+                  "drug": "Piperacilina/tazobactam",
+                  "dose": "4,5 g",
+                  "route": null,
+                  "interval": "6/6h"
+                }
+              ],
+              "source": {
+                "section": "6.3",
+                "page": 4
+              },
+              "issues": [
+                "B9"
+              ]
+            }
+          ],
+          "addOns": [
+            {
+              "verbatim": "*Considerar adicionar cobertura para Enterococcus spp (vancomicina 15-20mg/kg/8-12h, ou, em alternativa, daptomicina 8-10 mg/kg/dia ou linezolide 600mg/12h) em: doentes com valvulopatia, prótese valvular ou história de endocardite, imunossupressão, infeção nosocomial ou tratamento prévio com cefalosporinas ou quinolonas.",
+              "drugs": [
+                {
+                  "drug": "Vancomicina",
+                  "dose": "15-20 mg/kg",
+                  "route": null,
+                  "interval": "8-12h"
+                },
+                {
+                  "drug": "Daptomicina",
+                  "dose": "8-10 mg/kg/dia",
+                  "route": null,
+                  "interval": "id",
+                  "note": "alternativa"
+                },
+                {
+                  "drug": "Linezolide",
+                  "dose": "600 mg",
+                  "route": null,
+                  "interval": "12/12h",
+                  "note": "alternativa"
+                }
+              ],
+              "source": {
+                "section": "6.3 (nota *)",
+                "page": 4
+              },
+              "label": "± cobertura de Enterococcus spp*"
             },
+            {
+              "verbatim": "**Considerar adicionar cobertura para Candida spp nos seguintes casos: doente crítico, doente sob alimentação parentérica, uso de terapêutica de substituição renal contínua, colonização multifocal por Candida spp, deiscência de sutura gástrica ou duodenal. O antífúngico de eleição é a caspofungina 70mg dose carga + 50mg/24h.",
+              "drugs": [
+                {
+                  "drug": "Caspofungina",
+                  "dose": "70 mg (dose de carga) + 50 mg",
+                  "route": null,
+                  "interval": "24/24h"
+                }
+              ],
+              "source": {
+                "section": "6.3 (nota **)",
+                "page": 4
+              },
+              "label": "± cobertura de Candida spp**"
+            }
+          ],
+          "allergy": [
+            {
+              "verbatim": "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + tigeciclina (100 mg e depois 50 mg 12/12h).",
+              "drugs": [
+                {
+                  "drug": "Ciprofloxacina",
+                  "dose": "400 mg",
+                  "route": null,
+                  "interval": "8/8h"
+                },
+                {
+                  "drug": "Tigeciclina",
+                  "dose": "100 mg (dose inicial) e depois 50 mg",
+                  "route": null,
+                  "interval": "12/12h"
+                }
+              ],
+              "source": {
+                "section": "6.3 — Com critérios de sépsis ou fatores de mau prognóstico",
+                "page": 4
+              },
+              "issues": [
+                "B9"
+              ]
+            }
+          ],
+          "duration": [
+            {
+              "kind": "duration",
+              "text": "Se a evolução clínica for favorável (apirexia, tolerância à alimentação oral, normalização da contagem de leucócitos e descida significativa de parâmetros inflamatórios), a antibioterapia deve ser interrompida após 3-5 dias. Caso o curso seja desfavorável ou surjam complicações locais, a duração de antibioterapia deve ser decidida de acordo com a evolução clínica e imagiológica.",
+              "source": {
+                "section": "6.4 Duração de antibioterapia e seguimento",
+                "page": 5
+              }
+            },
+            {
+              "kind": "duration",
+              "text": "A terapêutica antifúngica (caspofungina 50mg/24h), quando iniciada, deve ser administrada durante 7-10 dias ou até exame micológico de líquido peritoneal negativo. Nos casos em que exista candidemia, o antifúngico deve ser prolongado pelo menos até 14 dias após hemoculturas de controlo negativas.",
+              "source": {
+                "section": "6.4",
+                "page": 5
+              }
+            }
+          ],
+          "notes": [
+            {
+              "kind": "microbiology",
+              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados, mesmo em doentes com agravamento clínico.",
+              "source": {
+                "section": "6.2 Produtos a colher para estudo microbiológico",
+                "page": 3
+              }
+            },
+            {
+              "kind": "info",
+              "text": "Recomenda-se antibioterapia empírica em todos os doentes com úlceras pépticas perfuradas. A perfuração de úlcera péptica deve ser tratada como uma peritonite secundária adquirida na comunidade.",
+              "source": {
+                "section": "6.1 Abordagem terapêutica",
+                "page": 2
+              }
+            },
+            {
+              "kind": "source_control",
+              "text": "Abordagem cirúrgica: Sutura laparoscópica ou via aberta, simples ou double layer com ou sem patch omental (procedimento padrão). Gastrectomia distal (grandes perfurações próximas ao piloro; suspeita de malignidade). Biópsia indicada em todas as úlceras gástricas.",
+              "source": {
+                "section": "Figura 1",
+                "page": 6
+              }
+            },
+            {
+              "kind": "deescalation",
+              "text": "O esquema antibiótico deve ser de-escalado assim que possível tendo em conta os agentes isolados nos produtos microbiológicos invasivos colhidos.",
+              "source": {
+                "section": "6.4",
+                "page": 5
+              }
+            },
+            {
+              "kind": "oral",
+              "text": "A antibioterapia pode ser completada por via oral caso exista evolução clínica favorável, controlo adequado do foco e um isolamento microbiológico suscetível a antibióticos eficazes por via oral. Em doentes sem critérios de sépsis e sem fatores de mau prognóstico, mas sem isolamento microbiológico pode ser considerado completar o tratamento por via oral com cefixime 400 mg/dia + metronidazol 500 mg 8/8h.",
+              "source": {
+                "section": "6.4",
+                "page": 5
+              }
+            }
+          ],
+          "source": [
             {
               "section": "6.3",
               "page": 4
             }
-          ],
-          "issues": [
-            "B2"
           ]
         },
         "r_meropenem": {
           "type": "result",
           "antibiotherapy": true,
-          "pending": true,
-          "title": "Úlcera perfurada — FR MDROs, com gravidade ou fatores de mau prognóstico",
+          "title": "Úlcera perfurada — com sépsis ou fatores de mau prognóstico, com FR MDR",
           "firstLine": [
             {
-              "verbatim": "Meropenem 1g/8h",
+              "verbatim": "meropenem 1g 8/8h ± cobertura de Enterococcus spp* ± cobertura de Candida spp **",
               "drugs": [
                 {
                   "drug": "Meropenem",
@@ -4664,11 +5423,12 @@
                 }
               ],
               "source": {
-                "section": "Figura 1; 6.3",
-                "page": 6
+                "section": "6.3",
+                "page": 4
               },
               "issues": [
-                "B9"
+                "B9",
+                "B10"
               ]
             }
           ],
@@ -4698,13 +5458,10 @@
                 }
               ],
               "source": {
-                "section": "6.3 (nota *); Figura 1",
+                "section": "6.3 (nota *)",
                 "page": 4
               },
-              "label": "± cobertura de Enterococcus spp*",
-              "issues": [
-                "m9"
-              ]
+              "label": "± cobertura de Enterococcus spp*"
             },
             {
               "verbatim": "**Considerar adicionar cobertura para Candida spp nos seguintes casos: doente crítico, doente sob alimentação parentérica, uso de terapêutica de substituição renal contínua, colonização multifocal por Candida spp, deiscência de sutura gástrica ou duodenal. O antífúngico de eleição é a caspofungina 70mg dose carga + 50mg/24h.",
@@ -4717,7 +5474,7 @@
                 }
               ],
               "source": {
-                "section": "6.3 (nota **); Figura 1",
+                "section": "6.3 (nota **)",
                 "page": 4
               },
               "label": "± cobertura de Candida spp**"
@@ -4725,7 +5482,7 @@
           ],
           "allergy": [
             {
-              "verbatim": "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg/8h + tigeciclina (100 mg e depois 50 mg /12h)",
+              "verbatim": "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + tigeciclina (100 mg e depois 50 mg 12/12h).",
               "drugs": [
                 {
                   "drug": "Ciprofloxacina",
@@ -4741,11 +5498,10 @@
                 }
               ],
               "source": {
-                "section": "Figura 1; 6.3",
-                "page": 6
+                "section": "6.3 — Com critérios de sépsis ou fatores de mau prognóstico",
+                "page": 4
               },
               "issues": [
-                "B2",
                 "B9"
               ]
             }
@@ -4770,6 +5526,14 @@
           ],
           "notes": [
             {
+              "kind": "microbiology",
+              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados, mesmo em doentes com agravamento clínico.",
+              "source": {
+                "section": "6.2 Produtos a colher para estudo microbiológico",
+                "page": 3
+              }
+            },
+            {
               "kind": "info",
               "text": "Recomenda-se antibioterapia empírica em todos os doentes com úlceras pépticas perfuradas. A perfuração de úlcera péptica deve ser tratada como uma peritonite secundária adquirida na comunidade.",
               "source": {
@@ -4783,14 +5547,6 @@
               "source": {
                 "section": "Figura 1",
                 "page": 6
-              }
-            },
-            {
-              "kind": "microbiology",
-              "text": "Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados.",
-              "source": {
-                "section": "6.2 Produtos a colher para estudo microbiológico",
-                "page": 3
               }
             },
             {
@@ -4812,16 +5568,9 @@
           ],
           "source": [
             {
-              "section": "Figura 1",
-              "page": 6
-            },
-            {
               "section": "6.3",
               "page": 4
             }
-          ],
-          "issues": [
-            "B2"
           ]
         }
       }
@@ -4870,12 +5619,9 @@
             "Outras formas de imunossupressão - imunodeficiência primária, SIDA, neoplasia sob quimioterapia."
           ],
           "source": {
-            "section": "6.3; Tabela 1; Tabela 2",
+            "section": "6.3; Tabela 1; Tabela 2; Validação clínica B7",
             "page": 4
-          },
-          "issues": [
-            "B7"
-          ]
+          }
         },
         "gravidade": {
           "label": "Gravidade clínica",
@@ -4950,12 +5696,9 @@
             }
           ],
           "source": {
-            "section": "Figura 1; Tabela 1; 6.1",
+            "section": "Tabela 1; 6.1; Validação clínica B7",
             "page": 3
-          },
-          "issues": [
-            "B7"
-          ]
+          }
         },
         "q_mdr_grave": {
           "type": "question",
@@ -5092,13 +5835,13 @@
                 }
               ],
               "source": {
-                "section": "Tabela 2",
+                "section": "Tabela 2; Validação clínica B7",
                 "page": 5
               },
-              "label": "Opção oral",
-              "issues": [
-                "B7"
-              ]
+              "label": "Opção oral (apenas sem gravidade clínica)",
+              "when": {
+                "q_criterios": "fr_clinico"
+              }
             }
           ],
           "allergy": [
@@ -5141,13 +5884,13 @@
                 }
               ],
               "source": {
-                "section": "Tabela 2",
+                "section": "Tabela 2; Validação clínica B7",
                 "page": 5
               },
-              "label": "Opção oral",
-              "issues": [
-                "B7"
-              ]
+              "label": "Opção oral (apenas sem gravidade clínica)",
+              "when": {
+                "q_criterios": "fr_clinico"
+              }
             }
           ],
           "duration": [
