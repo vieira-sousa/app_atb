@@ -276,29 +276,26 @@
           ],
           "allergy": [
             {
-              "verbatim": "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg /8h + metronidazol 500 mg /8h",
+              "verbatim": "Se alergia: Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h",
               "drugs": [
                 {
                   "drug": "Ciprofloxacina",
                   "dose": "400 mg",
-                  "route": null,
-                  "interval": "8/8h"
+                  "route": "EV",
+                  "interval": "q8h"
                 },
                 {
                   "drug": "Metronidazol",
                   "dose": "500 mg",
-                  "route": null,
-                  "interval": "8/8h"
+                  "route": "EV",
+                  "interval": "q8h"
                 }
               ],
               "source": {
-                "section": "Figura 1 — Fluxograma de antibioterapia recomendado na AA",
+                "section": "Figura 1 + Validação clínica B3b (CLINICAL_AUDIT.md §10)",
                 "page": 8,
                 "element": "Caixa 'Fatores de risco para MR? — Não'"
-              },
-              "issues": [
-                "B3b"
-              ]
+              }
             }
           ],
           "duration": [
@@ -460,10 +457,7 @@
               "source": {
                 "section": "6.2.2",
                 "page": 6
-              },
-              "issues": [
-                "B5b"
-              ]
+              }
             },
             {
               "verbatim": "Ertapenem 1g EV id (se colonização por Enterobacteriaceae ESBL+)",
@@ -479,10 +473,7 @@
                 "section": "6.2.2",
                 "page": 6
               },
-              "label": "Se colonização por Enterobacteriaceae ESBL+",
-              "issues": [
-                "B5b"
-              ]
+              "label": "Se colonização por Enterobacteriaceae ESBL+"
             }
           ],
           "allergy": [
@@ -1752,17 +1743,15 @@
                 {
                   "drug": "Ceftriaxone",
                   "dose": "2 g/dia",
-                  "route": null,
-                  "interval": "q24h"
+                  "route": "EV",
+                  "interval": "q24h",
+                  "note": "via: validação clínica B9"
                 }
               ],
               "source": {
                 "section": "Figura 3: Esquemas de tratamento empírico na colecistite aguda",
                 "page": 4
-              },
-              "issues": [
-                "B9"
-              ]
+              }
             }
           ],
           "addOns": [
@@ -2138,17 +2127,15 @@
                 {
                   "drug": "Ceftriaxone",
                   "dose": "2 g/dia",
-                  "route": null,
-                  "interval": "q24h"
+                  "route": "EV",
+                  "interval": "q24h",
+                  "note": "via: validação clínica B9"
                 }
               ],
               "source": {
                 "section": "Figura 3: Esquemas de tratamento empírico na colecistite aguda",
                 "page": 4
-              },
-              "issues": [
-                "B9"
-              ]
+              }
             }
           ],
           "addOns": [
@@ -2750,17 +2737,15 @@
                 {
                   "drug": "Ceftriaxone",
                   "dose": "2 g/dia",
-                  "route": null,
-                  "interval": "q24h"
+                  "route": "EV",
+                  "interval": "q24h",
+                  "note": "via: validação clínica B9"
                 }
               ],
               "source": {
                 "section": "Figura 1: Esquemas de tratamento empírico na colangite aguda",
                 "page": 5
-              },
-              "issues": [
-                "B9"
-              ]
+              }
             }
           ],
           "addOns": [
@@ -3208,17 +3193,15 @@
                 {
                   "drug": "Ceftriaxone",
                   "dose": "2 g/dia",
-                  "route": null,
-                  "interval": "q24h"
+                  "route": "EV",
+                  "interval": "q24h",
+                  "note": "via: validação clínica B9"
                 }
               ],
               "source": {
                 "section": "Figura 1: Esquemas de tratamento empírico na colangite aguda",
                 "page": 5
-              },
-              "issues": [
-                "B9"
-              ]
+              }
             }
           ],
           "addOns": [
@@ -4973,8 +4956,9 @@
                 {
                   "drug": "Ceftriaxone",
                   "dose": "2 g/dia",
-                  "route": null,
-                  "interval": null
+                  "route": "EV",
+                  "interval": null,
+                  "note": "via: validação clínica B9"
                 },
                 {
                   "drug": "Metronidazol",
@@ -5427,8 +5411,7 @@
                 "page": 4
               },
               "issues": [
-                "B9",
-                "B10"
+                "B9"
               ]
             }
           ],

@@ -95,10 +95,9 @@ P176_GRAV = [
     "Oligúria ou outra disfunção orgânica",
 ]
 p176_allergy_nonmr = regimen(
-    "Se alergia com indicação para evicção de β-lactâmicos: ciprofloxacina 400mg /8h + metronidazol 500 mg /8h",
-    [drug("Ciprofloxacina", "400 mg", None, "8/8h"), drug("Metronidazol", "500 mg", None, "8/8h")],
-    src("Figura 1 — Fluxograma de antibioterapia recomendado na AA", 8, "Caixa 'Fatores de risco para MR? — Não'"),
-    issues=["B3b"],
+    "Se alergia: Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h",
+    [drug("Ciprofloxacina", "400 mg", "EV", "q8h"), drug("Metronidazol", "500 mg", "EV", "q8h")],
+    src("Figura 1 + Validação clínica B3b (CLINICAL_AUDIT.md §10)", 8, "Caixa 'Fatores de risco para MR? — Não'"),
 )
 p176_allergy_mr_nosev = regimen(
     "Se alergia: Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h",
@@ -238,10 +237,10 @@ protocols.append({
             "alternatives": [
                 regimen("Cefepime 2g EV q8h + Metronidazol 500mg EV q8h",
                         [drug("Cefepime", "2 g", "EV", "q8h"), drug("Metronidazol", "500 mg", "EV", "q8h")],
-                        src("6.2.2", 6), issues=["B5b"]),
+                        src("6.2.2", 6)),
                 regimen("Ertapenem 1g EV id (se colonização por Enterobacteriaceae ESBL+)",
                         [drug("Ertapenem", "1 g", "EV", "id")], src("6.2.2", 6),
-                        label="Se colonização por Enterobacteriaceae ESBL+", issues=["B5b"]),
+                        label="Se colonização por Enterobacteriaceae ESBL+"),
             ],
             "allergy": [p176_allergy_mr_nosev],
             "duration": p176_dur,
@@ -436,7 +435,7 @@ def biliary_results(prefix, fig_main, fig_allergy, page_main, page_allergy, dur_
     metro_addon_allergy = dict(metro_addon, source=src(f"{fig_allergy} — nota 2", page_allergy))
 
     def cef():
-        return regimen("Ceftriaxone² 2g/dia q24h", [drug("Ceftriaxone", "2 g/dia", None, "q24h")], src(fig_main, page_main), issues=["B9"])
+        return regimen("Ceftriaxone² 2g/dia q24h", [drug("Ceftriaxone", "2 g/dia", "EV", "q24h", "via: validação clínica B9")], src(fig_main, page_main))
 
     def cip(interval):
         return regimen(f"Ciprofloxacina² 400mg {interval}", [drug("Ciprofloxacina", "400 mg", None, interval)],
@@ -951,7 +950,7 @@ protocols.append({
             "type": "result", "antibiotherapy": True,
             "title": "Úlcera perfurada — sem sépsis, sem fatores de mau prognóstico, sem FR MDR",
             "firstLine": [regimen("Ceftriaxone 2g/dia + metronidazol 500 mg 8/8h",
-                                  [drug("Ceftriaxone", "2 g/dia", None, None), drug("Metronidazol", "500 mg", None, "8/8h")],
+                                  [drug("Ceftriaxone", "2 g/dia", "EV", None, "via: validação clínica B9"), drug("Metronidazol", "500 mg", None, "8/8h")],
                                   src("6.3", 4), issues=["B9"])],
             "allergy": [p179_allergy_metro],
             "duration": p179_dur, "notes": p179_common,
@@ -977,7 +976,7 @@ protocols.append({
             "type": "result", "antibiotherapy": True,
             "title": "Úlcera perfurada — com sépsis ou fatores de mau prognóstico, com FR MDR",
             "firstLine": [regimen("meropenem 1g 8/8h ± cobertura de Enterococcus spp* ± cobertura de Candida spp **",
-                                  [drug("Meropenem", "1 g", None, "8/8h")], src("6.3", 4), issues=["B9", "B10"])],
+                                  [drug("Meropenem", "1 g", None, "8/8h")], src("6.3", 4), issues=["B9"])],
             "addOns": [P179_ENTERO, P179_CANDIDA],
             "allergy": [p179_allergy_tige],
             "duration": p179_dur_af, "notes": p179_common,

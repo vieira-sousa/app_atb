@@ -363,10 +363,15 @@ Sépsis ou fatores de mau prognóstico?
 
 ---
 
+### Second round of decisions (2026-11-26)
+
+| ID | Decision | Encoded as |
+|---|---|---|
+| **[B3b]** | Appendicitis, non-MR branch allergy: **Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h**. | `r_ceftriaxone` allergy regimen. |
+| **[B5b]** | **Keep** cefepime + metronidazol and ertapenem (ESBL+ colonisation) as alternatives under pip/tazo. | `r_piptazo.alternatives`. |
+| **[B10]** | Perforated ulcer meropenem stays **1g 8/8h** (PDF). | Unchanged. |
+| **[B9]** (partial) | Route depends on the antibiotic; **ceftriaxone is always EV**. | Ceftriaxone route = EV in PAC175, PAC177, PAC179 (protocol wording unchanged; drug note "via: validação clínica B9"). |
+
 ## 11. Open items (current handling = PDF wording; awaiting confirmation)
 
-- **[B3b]** Appendicitis, **non-MR** branch allergy regimen: still Figura 1 wording "ciprofloxacina 400mg /8h + metronidazol 500 mg /8h" (no route). Change to "Ciprofloxacina 400mg EV q8h + Metronidazol 500mg EV q8h" to match the MR branch?
-- **[B5b]** Appendicitis, MR without severity: cefepime 2g EV q8h + metronidazol 500mg EV q8h and ertapenem 1g EV id (ESBL+ colonisation), from text 6.2.2, are still shown as **alternatives** under pip/tazo. Keep or remove?
-- **[B9]** Route not written in PAC175, PAC177 and PAC179 (e.g. "Ceftriaxone 2g/dia q24h" — no "EV"). Currently displayed exactly as written, without a route. Add "EV" to these regimens?
-- **[B10]** Perforated ulcer meropenem: the reply to m9 listed "Meropenem 2g EV q8h"; PAC179 text 6.3 and Figura 1 both say **1g 8/8h**. Currently **1g** (PDF). Confirm 1g, or change to 2g?
-
+- **[B9]** (remaining) Regimens with no route in the PDF are still shown as "n.e.": PAC175/PAC177 piperacilina/tazobactam, meropenem, ciprofloxacina, metronidazol (anastomose); PAC179 piperacilina/tazobactam, meropenem, ciprofloxacina, metronidazol, tigeciclina, vancomicina, daptomicina, linezolide, caspofungina.
