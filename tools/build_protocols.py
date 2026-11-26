@@ -453,8 +453,8 @@ def biliary_results(prefix, fig_main, fig_allergy, page_main, page_allergy, dur_
         "r_g12_com": {
             "type": "result", "antibiotherapy": True,
             "title": f"{prefix} Grau I e II — com fatores de risco para MDR",
-            "firstLine": [regimen("Piperacilina/tazobactam 4,5g q6h", [drug("Piperacilina/tazobactam", "4,5 g", None, "q6h")],
-                                  src(fig_main, page_main), issues=["B9", "m8"])],
+            "firstLine": [regimen("Piperacilina/tazobactam 4,5g q6h", [drug("Piperacilina/tazobactam", "4,5 g", "EV", "q6h", "via: validação clínica B9")],
+                                  src(fig_main, page_main), issues=["m8"])],
             "allergy": [cip("q8h")], "allergyAddOns": [metro_addon_allergy],
             "duration": dur_by_grade["12"], "notes": common,
             "source": [src(fig_main, page_main), src(fig_allergy, page_allergy)],
@@ -470,7 +470,7 @@ def biliary_results(prefix, fig_main, fig_allergy, page_main, page_allergy, dur_
         "r_g3_com": {
             "type": "result", "antibiotherapy": True,
             "title": f"{prefix} Grau III — com fatores de risco para MDR",
-            "firstLine": [regimen("Meropenem 1g q8h", [drug("Meropenem", "1 g", None, "q8h")], src(fig_main, page_main), issues=["B9", "m8"])],
+            "firstLine": [regimen("Meropenem 1g q8h", [drug("Meropenem", "1 g", "EV", "q8h", "via: validação clínica B9")], src(fig_main, page_main), issues=["m8"])],
             "allergy": [regimen("A discutir caso a caso", [], src(fig_allergy, page_allergy))],
             "duration": dur_by_grade["3"], "notes": common,
             "source": [src(fig_main, page_main), src(fig_allergy, page_allergy)],
@@ -863,13 +863,13 @@ protocols.append({
 # ===========================================================================
 P179_ENTERO = regimen(
     "*Considerar adicionar cobertura para Enterococcus spp (vancomicina 15-20mg/kg/8-12h, ou, em alternativa, daptomicina 8-10 mg/kg/dia ou linezolide 600mg/12h) em: doentes com valvulopatia, prótese valvular ou história de endocardite, imunossupressão, infeção nosocomial ou tratamento prévio com cefalosporinas ou quinolonas.",
-    [drug("Vancomicina", "15-20 mg/kg", None, "8-12h"), drug("Daptomicina", "8-10 mg/kg/dia", None, "id", "alternativa"),
+    [drug("Vancomicina", "15-20 mg/kg", "EV", "8-12h", "via: validação clínica B9"), drug("Daptomicina", "8-10 mg/kg/dia", "EV", "id", "alternativa; via: validação clínica B9"),
      drug("Linezolide", "600 mg", None, "12/12h", "alternativa")],
     src("6.3 (nota *)", 4), label="± cobertura de Enterococcus spp*",
 )
 P179_CANDIDA = regimen(
     "**Considerar adicionar cobertura para Candida spp nos seguintes casos: doente crítico, doente sob alimentação parentérica, uso de terapêutica de substituição renal contínua, colonização multifocal por Candida spp, deiscência de sutura gástrica ou duodenal. O antífúngico de eleição é a caspofungina 70mg dose carga + 50mg/24h.",
-    [drug("Caspofungina", "70 mg (dose de carga) + 50 mg", None, "24/24h")],
+    [drug("Caspofungina", "70 mg (dose de carga) + 50 mg", "EV", "24/24h", "via: validação clínica B9")],
     src("6.3 (nota **)", 4), label="± cobertura de Candida spp**",
 )
 p179_allergy_metro = regimen(
@@ -879,11 +879,11 @@ p179_allergy_metro = regimen(
 )
 p179_allergy_tige = regimen(
     "Se alergia com indicação para evitar beta-lactâmicos: ciprofloxacina 400mg 8/8h + tigeciclina (100 mg e depois 50 mg 12/12h).",
-    [drug("Ciprofloxacina", "400 mg", None, "8/8h"), drug("Tigeciclina", "100 mg (dose inicial) e depois 50 mg", None, "12/12h")],
+    [drug("Ciprofloxacina", "400 mg", None, "8/8h"), drug("Tigeciclina", "100 mg (dose inicial) e depois 50 mg", "EV", "12/12h", "via: validação clínica B9")],
     src("6.3 — Com critérios de sépsis ou fatores de mau prognóstico", 4), issues=["B9"],
 )
 PIP_179 = regimen("piperacilina-tazobactam 4,5g 6/6h ± cobertura de Enterococcus spp ± cobertura de Candida spp",
-                  [drug("Piperacilina/tazobactam", "4,5 g", None, "6/6h")], src("6.3", 4), issues=["B9"])
+                  [drug("Piperacilina/tazobactam", "4,5 g", "EV", "6/6h", "via: validação clínica B9")], src("6.3", 4))
 p179_common = [
     note("Hemoculturas a todos os doentes com critérios de sépsis (40-60 mL de sangue, a distribuir por 4-6 frascos, punções em locais diferentes, 20 mL por punção: 10 mL aerobiose + 10 mL anaerobiose), antes do início de antibioterapia. Líquido intraperitoneal colhido intraoperatoriamente para recipiente estéril (solicitar recipientes para anaeróbios) em todos os doentes submetidos a cirurgia ou drenagem. Produtos colhidos por zaragatoa, aspiração superficial de pús ou através de drenos colocados há mais de 24 horas não estão recomendados, mesmo em doentes com agravamento clínico.",
          src("6.2 Produtos a colher para estudo microbiológico", 3), kind="microbiology"),
@@ -976,7 +976,7 @@ protocols.append({
             "type": "result", "antibiotherapy": True,
             "title": "Úlcera perfurada — com sépsis ou fatores de mau prognóstico, com FR MDR",
             "firstLine": [regimen("meropenem 1g 8/8h ± cobertura de Enterococcus spp* ± cobertura de Candida spp **",
-                                  [drug("Meropenem", "1 g", None, "8/8h")], src("6.3", 4), issues=["B9"])],
+                                  [drug("Meropenem", "1 g", "EV", "8/8h", "via: validação clínica B9")], src("6.3", 4))],
             "addOns": [P179_ENTERO, P179_CANDIDA],
             "allergy": [p179_allergy_tige],
             "duration": p179_dur_af, "notes": p179_common,

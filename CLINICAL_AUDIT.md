@@ -372,6 +372,8 @@ Sépsis ou fatores de mau prognóstico?
 | **[B10]** | Perforated ulcer meropenem stays **1g 8/8h** (PDF). | Unchanged. |
 | **[B9]** (partial) | Route depends on the antibiotic; **ceftriaxone is always EV**. | Ceftriaxone route = EV in PAC175, PAC177, PAC179 (protocol wording unchanged; drug note "via: validação clínica B9"). |
 
-## 11. Open items (current handling = PDF wording; awaiting confirmation)
+| **[B9]** (final) | Route: **EV** for piperacilina/tazobactam, meropenem, tigeciclina, caspofungina, vancomicina, daptomicina. **All other route-less regimens remain "n.e."** (ciprofloxacina, metronidazol, linezolide in PAC175/177/179). | Drug route field = EV with note "via: validação clínica B9"; protocol wording unchanged. |
 
-- **[B9]** (remaining) Regimens with no route in the PDF are still shown as "n.e.": PAC175/PAC177 piperacilina/tazobactam, meropenem, ciprofloxacina, metronidazol (anastomose); PAC179 piperacilina/tazobactam, meropenem, ciprofloxacina, metronidazol, tigeciclina, vancomicina, daptomicina, linezolide, caspofungina.
+## 11. Open items
+
+None. All issues raised in §9 and in the second round have been resolved (§10).
